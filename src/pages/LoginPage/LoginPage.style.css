@@ -1,0 +1,88 @@
+body {
+  margin: 0px;
+  font-family: "Montserrat", "Raleway", "Apple SD Gothic Neo", "Malgun Gothic",
+    "Noto Sans", sans-serif;
+}
+
+.logo-area {
+    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.margin-main {
+  max-width: 584px;
+  width: 100%;
+  margin: 0px auto;
+  padding: 0px 20px;
+  margin-top: 80px;
+}
+
+.login-area {
+    margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.login-form {
+  width: 30em;
+}
+
+.login-button {
+  font-size: 20px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  font-weight: bold;
+  border-width: 1px;
+  border-style: solid;
+  transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s,
+    border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  background-color: rgb(28, 171, 226);
+  border-color: rgb(28, 171, 226);
+}
+
+.login-button:hover {
+  background: #1a6dff;
+  border-color: #1a6dff;
+  color: #fff;
+
+}
+
+.join-button{
+    font-size: 20px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    font-weight: bold;
+    border-width: 1px;
+    border-style: solid;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    color: rgb(28, 171, 226);
+    border-color: rgb(28, 171, 226);
+}
+
+.join-button:hover{
+
+    color: #fff;
+    background-color: rgb(28, 171, 226);
+    border-color: rgb(28, 171, 226);
+}
+
+.logo-area div {
+  text-align: center;
+}
+
+
+  
+
+

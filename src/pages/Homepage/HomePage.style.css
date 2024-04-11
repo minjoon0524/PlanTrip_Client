@@ -1,0 +1,39 @@
+.homePage{
+      background-image: url(https://cdn.imweb.me/thumbnail/20210120/f1d5afc00b0b5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+
+    
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 700px; /* 화면 전체 높이에 맞춤 */
+    text-align: center;
+    margin-left: 50px;
+    margin-top: 0;
+    
+  }
+  
+  .main h1 {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 0.5em; /* 여백 추가 */
+  }
+  
+  .main h3 {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 2em; /* 여백 추가 */
+  }
+  
+  .main-button {
+    border-radius: 500px;
+    font-weight: 600;
+    font-size: inherit;
+    color: black;
+    margin-top: 2em; /* 여백 추가 */
+  }

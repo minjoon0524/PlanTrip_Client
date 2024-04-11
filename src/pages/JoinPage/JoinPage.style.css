@@ -1,0 +1,15 @@
+
+
+  .join-form {
+    width: 30em;
+  }
+
+  .logo-area{
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo-area h2{
+    text-align: center;
+    margin-bottom: 10px;
+  }
