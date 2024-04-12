@@ -1,0 +1,14 @@
+.nav-top {
+    position: relative;
+    top: 100px; /* 네브바의 높이에 맞게 조절 */
+  }
+
+  .text-2xl {
+    font-size: 1.5rem;
+}
+
+.plan-trip-search{
+    border-radius: 8px;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
+}
+  
