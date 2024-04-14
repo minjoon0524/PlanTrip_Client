@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+
+.travel-card {
+    width: 240px;
+    height: 240px;
+    background-size: cover;
+    cursor: pointer;
+    transition: 0.5s;
+    border: 1px solid black;
+    
+  }
+
+  .text-2xl{
+    font-size: 1.5rem;
+  }
+
+/* 카드 영역에 마우스를 올렸을 때의 기본 스타일 */
+.card-area{
+  margin: 1rem;
+  transition: transform 0.3s ease-out;
+
+}
+
+.card-area:hover {
+  transform: scale(var(--tw-scale-x), var(--tw-scale-y));
+}
+
+/* 스케일 변화를 위한 변수 초기화 */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
+}
+
+.font-Montserrat {
+  font-family: Montserrat, Noto Sans KR, sans-serif;
+}

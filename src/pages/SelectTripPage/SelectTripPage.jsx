@@ -1,17 +1,70 @@
-import React from 'react'
-import './SelectTripPage.style.css'
-import { Container } from 'react-bootstrap';
+import React, { useState } from "react";
+import "./SelectTripPage.style.css";
+import { Col, Container, Row } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import TravelCard from "../../common/TravelCard";
 
 const SelectTripPage = () => {
-  return (
-    <Container className='search-area mt-3'>
-       <div className='nav-top'>
-        <h6 className='text-2xl'>어디로 여행을 떠나시나요?</h6>
-        <input class="plan-trip-search" type="search" required="" placeholder="여행지를 검색해보세요." value=""></input>
-        <button class="absolute top-0 bottom-0 right-0 mr-4"><svg class="w-6 h-6 md:w-8 md:h-8" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" viewBox="0 0 56.966 56.966"><path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"></path></svg></button>
-        </div>
-    </Container>
-  )
-}
+  // useState 훅을 사용하여 검색어에 대한 상태를 생성합니다.
+  const [searchQuery, setSearchQuery] = useState("");
 
-export default SelectTripPage
+  // 사용자 입력이 변경될 때 호출될 함수입니다.
+  const handleInputChange = (event) => {
+    // 입력된 값으로 searchQuery 상태를 업데이트합니다.
+    setSearchQuery(event.target.value);
+  };
+
+  return (
+    <div>
+      <Container className="search-area mt-3 mb-3">
+        <div className="nav-top">
+          <h2 className="text-3xl m-3" style={{ fontWeight: 700 }}>어디로 여행을 떠나시나요?</h2>
+          <input
+            className="plan-trip-search w-full "
+            type="search"
+            required=""
+            placeholder="여행지를 검색해보세요."
+            value={searchQuery} // value를 searchQuery 상태로 설정합니다.
+            onChange={handleInputChange} // input 값이 변경될 때 handleInputChange 함수를 호출합니다.
+          ></input>
+          <button className="search-btn">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
+        </div>
+      </Container>
+      <Container>
+  {/* 여행지 추천 영역 */}
+  <div className="recommendation-area">
+    <h4 className="fw-bolder mb-3 " style={{ fontWeight: 700 }}>국내 여행지 추천</h4>
+    <div className="travel-cards-container">
+      <Row>
+        {/* 각 TravelCard를 별도의 Col 컴포넌트로 감싸줍니다. */}
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        <Col lg={3} sm={12}><TravelCard /></Col>
+        {/* 필요한 만큼 여행 카드 추가 */}
+      </Row>
+    </div>
+  </div>
+</Container>
+
+    </div>
+    
+  );
+};
+
+export default SelectTripPage;
