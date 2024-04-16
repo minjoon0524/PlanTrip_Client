@@ -15,6 +15,8 @@ const SelectTripPage = () => {
     setSearchQuery(event.target.value);
   };
 
+  
+
   return (
     <div>
       <Container className="search-area mt-3 mb-3">
