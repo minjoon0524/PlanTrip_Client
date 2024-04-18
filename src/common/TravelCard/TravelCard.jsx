@@ -1,11 +1,11 @@
 import React from 'react'
 import './TravelCard.style.css'
 import Card from 'react-bootstrap/Card';
-import { useSearchKeywordQuery } from '../hooks/useSearchKeyword';
+import { useSearchKeywordQuery } from '../../hooks/useSearchKeyword';
 
 const TravelCard = () => {
   const { data, isLoading, isError, error } = useSearchKeywordQuery();
-  console.log(data)
+  
   return (
 
 

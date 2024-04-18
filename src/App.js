@@ -1,13 +1,13 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
-
 import AppLayout from "./layout/AppLayout";
 import HomePage from "./pages/Homepage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import JoinPage from "./pages/JoinPage/JoinPage";
 import PlanPage from "./pages/PlanPage/PlanPage";
 import SelectTripPage from "./pages/SelectTripPage/SelectTripPage";
+import MapPage from "./pages/MapPage/MapPage";
 
 function App() {
   return (
@@ -19,7 +19,9 @@ function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/plan" element={<PlanPage />} />
           <Route path="/SelectTrip" element={<SelectTripPage />} />
+       
         </Route>
+        <Route path="/trip" element={<MapPage />} />
       </Routes>
     </div>
   );

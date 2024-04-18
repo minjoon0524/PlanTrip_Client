@@ -3,8 +3,7 @@ import "./SelectTripPage.style.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import TravelCard from "../../common/TravelCard";
-
+import TravelCard from "../../common/TravelCard/TravelCard";
 const SelectTripPage = () => {
   // useState 훅을 사용하여 검색어에 대한 상태를 생성합니다.
   const [searchQuery, setSearchQuery] = useState("");
