@@ -5,6 +5,8 @@ import { useSearchKeywordQuery } from '../../hooks/useSearchKeyword';
 
 const TravelCard = () => {
   const { data, isLoading, isError, error } = useSearchKeywordQuery();
+  console.log(data)
+  console.log(error)
   
   return (
 

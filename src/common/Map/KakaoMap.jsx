@@ -5,7 +5,7 @@ import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 
 const KakaoMap = () => {
   const [ loading, error ] = useKakaoLoader({
-    appkey: 'feac6300df23cdbaa78bdbbd8680b438' // 발급 받은 APPKEY
+    appkey: process.env.REACT_APP_KAKAO_API_KEY // 발급 받은 APPKEY
      // 추가 옵션
   })
   return (
