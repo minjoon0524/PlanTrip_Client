@@ -1,6 +1,68 @@
-.sectionBorder {
-   padding-left: 0;
-   padding-right: 0;
-    border-right: 2px solid black;
+body {
+  font-family: "Montserrat", "Raleway", "Apple SD Gothic Neo", "Malgun Gothic",
+    "Noto Sans", sans-serif;
+  margin: 0px;
 }
 
+.sectionBorder {
+  border-right: 2px solid black;
+}
+
+.map-area {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+
+
+.map-area {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.logo-area {
+  margin: 0px 0px;
+  padding: 0px 22px;
+  padding-bottom: 104px;
+
+ 
+}
+
+.select-item {
+    width: max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.logo-area,
+.select-item {
+  flex: 1 1 30%; /* 1번째와 2번째 아이템 너비 비율 */
+ 
+}
+
+.scroll-bar{
+    height: 400px;
+    overflow-y: scroll;
+}
+  
+.map-item {
+  flex: 1 1 40%;
+}
+
+.sub-logo-area{
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-area div {
+    text-align: justify;
+}
+
+.location-logo{
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    cursor: pointer;
+}

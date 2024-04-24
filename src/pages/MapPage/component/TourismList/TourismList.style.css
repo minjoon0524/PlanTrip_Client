@@ -20,6 +20,13 @@
 /* 폰트 스타일 조정 */
 .tourism-item > div > div {
     font-family: Arial, sans-serif; /* 적합한 폰트 선택 */
-    font-size: 16px; /* 필요에 따라 폰트 크기 조정 */
-    color: #333; /* 텍스트 색상 지정 */
+    
+   
+}
+
+.store-name{
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: rgb(0, 104, 195);
 }
