@@ -16,6 +16,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../img/logo.png";
 import TourismList from "./component/TourismList/TourismList";
+import TravelCalendar from "./component/Calendar/TravelCalendar";
 
 //1. 3등분 레이아웃 조정(완료)
 //2. 마우스 드래그로 특정 영역크기 조절
@@ -44,7 +45,7 @@ const MapPage = () => {
               </Col>
             </Row>
             {/* 날짜 선택(임시) / 라이브러리 사용예정 */}
-            <Row>2024.04.16-2024.04.18</Row>
+            <Row> <TravelCalendar /></Row>
 
             {/* Search Row */}
             <Row>
