@@ -28,10 +28,10 @@ import TravelCalendar from "./component/Calendar/TravelCalendar";
 
 const MapPage = () => {
   const [keyword, setKeyword] = useState("");
-
+  const [searchResults, setSearchResults] = useState([]);
   const searchByKeyword = (event) => {
     event.preventDefault();
-    console.log(keyword)
+    console.log(keyword);
     setKeyword(""); // 입력 필드를 비움
   };
   return (
@@ -85,18 +85,12 @@ const MapPage = () => {
               style={{
                 width: "max-content",
               }}
-            >
+            > 
               <Stack gap={2} className="scroll-bar">
-                <div className="p-2">
-                  <TourismList />
+                <div className="p-2 ">
+                  <TourismList places={searchResults} />
                 </div>
-                <div className="p-2">
-                  <TourismList />
-                </div>
-                <div className="p-2">
-                  <TourismList />
-                </div>
-              </Stack>
+              </Stack> 
             </Row>
           </Col>
         </Row>
@@ -111,20 +105,15 @@ const MapPage = () => {
         >
           <Stack gap={2} className="scroll-bar">
             <div className="p-2">
-              <TourismList />
+            <TourismList places={searchResults} />
             </div>
-            <div className="p-2">
-              <TourismList />
-            </div>
-            <div className="p-2">
-              <TourismList />
-            </div>
+   
           </Stack>
         </Row>
       </div>
       <div className="sectionBorder map-item">
         {" "}
-        <KakaoMap keyword={keyword} />
+        <KakaoMap keyword={keyword} onSearchResults={setSearchResults} />
       </div>
     </div>
   );

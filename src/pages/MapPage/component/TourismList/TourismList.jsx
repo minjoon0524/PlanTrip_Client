@@ -3,21 +3,22 @@ import "./TourismList.style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-const TourismList = () => {
+const TourismList = ({ places }) => {
   return (
     <div className="tourism-area">
-      <div className="tourism-item">
-        <div>
-          <div className="store-name">벅벅 이태원점</div>
-          <div>서울 용산구 이태원로 20길 24</div>
-          <div>서울 용산구 이태원동 74-22</div>
-          <div>070-4185-8820</div>
+      {Array.isArray(places) && places.map((place, index) => (
+        <div key={index} className="tourism-item">
+          <div>
+            <div className="store-name">{place.place_name}</div>
+            <div>{place.address_name}</div>
+            <div>{place.road_address_name}</div>
+            <div>{place.phone}</div>
+          </div>
+          <div>
+            <FontAwesomeIcon style={{cursor: 'pointer'}} icon={faPlus} />
+          </div>
         </div>
-
-        <div>
-          <FontAwesomeIcon style={{cursor: 'pointer'}} icon={faPlus} />
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

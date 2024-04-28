@@ -4,7 +4,7 @@ import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
-const KakaoMap = ({keyword}) => {
+const KakaoMap = ({keyword,onSearchResults}) => {
   const [info, setInfo] = useState()
   const [markers, setMarkers] = useState([])
   const [map, setMap] = useState()
@@ -19,7 +19,8 @@ const KakaoMap = ({keyword}) => {
         // LatLngBounds 객체에 좌표를 추가합니다
         const bounds = new kakao.maps.LatLngBounds()
         let markers = []
-
+        console.log(data)
+        onSearchResults(data);
         for (var i = 0; i < data.length; i++) {
           // @ts-ignore
           markers.push({
@@ -38,9 +39,10 @@ const KakaoMap = ({keyword}) => {
         map.setBounds(bounds)
       }
     })
-  }, [map,keyword])
+  }, [map,keyword,onSearchResults])
 
   return (
+    
     <div className="map-area">
     <Map // 로드뷰를 표시할 Container
       center={{

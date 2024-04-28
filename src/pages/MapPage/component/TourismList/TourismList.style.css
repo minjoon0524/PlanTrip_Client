@@ -7,6 +7,8 @@
     justify-content: space-between; /* 아이템 사이에 간격 조정 */
     align-items: center;
     padding: 10px; /* 컨텐츠 주변에 여백 추가 */
+    border-bottom: 1px solid black;
+    height: 119.8px;
 }
 
 .tourism-item > div {
