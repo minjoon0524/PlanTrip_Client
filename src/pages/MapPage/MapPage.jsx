@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import KakaoMap from "./../../common/Map/KakaoMap";
 import "./MapPage.style.css";
 import Stack from "react-bootstrap/Stack";
@@ -22,18 +22,29 @@ import TravelCalendar from "./component/Calendar/TravelCalendar";
 //2. 내가 관광지를 선택했을 때 선택영역에 표시되게 하기
 //3. 표시된 곳에서 Delete버튼 누르면 사라지게 하기
 //4. 카카오 API로 검색기능 추가
+// - 검색은 가능하나 지도가 키워드 하나하나에 바뀜(키워드 완성 후 바뀔 수 있도록 수정 예정)
 //5. 카카오 API로 관광지 목록 뜨게하기
+// - 첫 시작시 뜨게 할 것은? 음... [해수욕장,산,놀이동산,계곡 .. 등]을 넣고 랜덤으로 표시되게 할까?
+// - 검색하면 리스트가 바뀔 수 있도록 하기
+
 //6. 카카오 API활용 내가 선택한 관광지 마킹하기
 //7. 마킹한 관광지 경로표시하기
 
 const MapPage = () => {
+  // 검색 후 텍스트를 지우기 위해 ref생성
+  const inputRef = useRef(null); // ref 생성
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const searchByKeyword = (event) => {
-    event.preventDefault();
-    console.log(keyword);
     setKeyword(""); // 입력 필드를 비움
+    event.preventDefault();
+
+    // 입력 필드의 값을 직접 지워줌
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
+
   return (
     // 전체 바디 영역
     <div className="map-area mt-3">
@@ -60,9 +71,15 @@ const MapPage = () => {
             {/* Search Row */}
             <Row>
               <Col>
-                <Form onSubmit={searchByKeyword}>
+                <Form
+                  onSubmit={(event) => {
+                    searchByKeyword(event);
+                    setKeyword(""); // 입력 필드를 비움
+                  }}
+                >
                   <InputGroup className="mb-3">
                     <Form.Control
+                      ref={inputRef} // ref 설정
                       placeholder="장소를 검색하세요"
                       aria-label="장소를 검색하세요"
                       aria-describedby="basic-addon2"
@@ -85,12 +102,12 @@ const MapPage = () => {
               style={{
                 width: "max-content",
               }}
-            > 
+            >
               <Stack gap={2} className="scroll-bar">
                 <div className="p-2 ">
                   <TourismList places={searchResults} />
                 </div>
-              </Stack> 
+              </Stack>
             </Row>
           </Col>
         </Row>
@@ -105,9 +122,8 @@ const MapPage = () => {
         >
           <Stack gap={2} className="scroll-bar">
             <div className="p-2">
-            <TourismList places={searchResults} />
+              <TourismList places={searchResults} />
             </div>
-   
           </Stack>
         </Row>
       </div>

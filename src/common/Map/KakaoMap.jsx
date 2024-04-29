@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
-import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
