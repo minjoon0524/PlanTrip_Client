@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../img/logo.png";
 import TourismList from "./component/TourismList/TourismList";
 import TravelCalendar from "./component/Calendar/TravelCalendar";
+import SelectList from "./component/SelectList/SelectList";
 
 //1. 3등분 레이아웃 조정(완료)
 //a. 날짜 선택 라이브러리 불러오기(완료)
@@ -31,28 +32,42 @@ import TravelCalendar from "./component/Calendar/TravelCalendar";
 //7. 마킹한 관광지 경로표시하기
 
 const MapPage = () => {
-  // 검색 후 텍스트를 지우기 위해 ref생성
-  const inputRef = useRef(null); // ref 생성
+  // ref 생성
+  const inputRef = useRef(null);
+  // 검색어와 검색 결과 상태
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const searchByKeyword = (event) => {
-    setKeyword(""); // 입력 필드를 비움
-    event.preventDefault();
+  // 선택된 관광지 목록 상태
+  const [selectedPlaces, setSelectedPlaces] = useState([]);
 
-    // 입력 필드의 값을 직접 지워줌
+  // 검색어로 장소 검색
+  const searchByKeyword = (event) => {
+    setKeyword(""); // 입력 필드 초기화
+    event.preventDefault();
     if (inputRef.current) {
       inputRef.current.value = "";
     }
   };
 
+  // 관광지를 선택 목록에 추가
+  const addToSelectedList = (place) => {
+    setSelectedPlaces([...selectedPlaces, place]);
+  };
+
+  // 선택 목록에서 관광지 제거
+  const removeFromSelectedList = (index) => {
+    const updatedList = [...selectedPlaces];
+    updatedList.splice(index, 1);
+    setSelectedPlaces(updatedList);
+  };
+
   return (
-    // 전체 바디 영역
-    <div className="map-area mt-3">
+    <div className="map-area">
       {/* 로고 및 검색 영역 */}
-      <div className="sectionBorder logo-area ">
+      <div className="basic-drop-shadow logo-area">
         <Row>
           <Col>
-            {/* logo Row */}
+            {/* 로고 및 현위치 아이콘 */}
             <Row className="sub-logo-area">
               <Col>
                 <img src={logo} alt="" width={250}></img>
@@ -62,19 +77,18 @@ const MapPage = () => {
                 <span className="location-logo">현위치</span>
               </Col>
             </Row>
-            {/* 날짜 선택*/}
+            {/* 날짜 선택 */}
             <Row>
               {" "}
               <TravelCalendar />
             </Row>
-
-            {/* Search Row */}
+            {/* 장소 검색 입력 폼 */}
             <Row>
               <Col>
                 <Form
                   onSubmit={(event) => {
                     searchByKeyword(event);
-                    setKeyword(""); // 입력 필드를 비움
+                    setKeyword(""); // 입력 필드 초기화
                   }}
                 >
                   <InputGroup className="mb-3">
@@ -96,39 +110,35 @@ const MapPage = () => {
                 </Form>
               </Col>
             </Row>
-
-            {/* 관광지 Row */}
-            <Row
-              style={{
-                width: "max-content",
-              }}
-            >
+            {/* 관광지 검색 결과 */}
+            <Row style={{ width: "max-content" }}>
               <Stack gap={2} className="scroll-bar">
                 <div className="p-2 ">
-                  <TourismList places={searchResults} />
+                  <TourismList
+                    places={searchResults}
+                    addToSelectedList={addToSelectedList}
+                  />
                 </div>
               </Stack>
             </Row>
           </Col>
         </Row>
       </div>
-      {/* 내가 선택한 관광지 */}
+      {/* 선택된 관광지 목록 */}
       <div className="sectionBorder select-item">
-        {" "}
-        <Row
-          style={{
-            width: "max-content",
-          }}
-        >
-          <Stack gap={2} className="scroll-bar">
+        <Row style={{ width: "max-content" }}>
+          <Stack gap={2} className="select-item-scroll-bar">
             <div className="p-2">
-              <TourismList places={searchResults} />
+              <SelectList
+                places={selectedPlaces}
+                removeFromSelectedList={removeFromSelectedList}
+              />
             </div>
           </Stack>
         </Row>
       </div>
+      {/* 지도 영역 */}
       <div className="sectionBorder map-item">
-        {" "}
         <KakaoMap keyword={keyword} onSearchResults={setSearchResults} />
       </div>
     </div>

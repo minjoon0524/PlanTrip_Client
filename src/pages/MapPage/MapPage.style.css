@@ -5,23 +5,27 @@ body {
 }
 
 .sectionBorder {
-  border-right: 2px solid black;
+  /* border-right: 2px solid black; */
 }
 
 .map-area {
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 50vw;
 }
 
 
-
+.logo-area,
+.select-item,
+.map-item {
+  flex-grow: 1; /* 모든 아이템의 너비가 동일하도록 설정 */
+}
 
 .logo-area {
   margin: 0px 0px;
   padding: 0px 22px;
   padding-bottom: 104px;
-
+  text-align: center;
  
 }
 
@@ -33,13 +37,18 @@ body {
 
 .logo-area,
 .select-item {
-  flex: 1 1 30%; /* 1번째와 2번째 아이템 너비 비율 */
+  flex: 1 1 1 30%; /* 1번째와 2번째 아이템 너비 비율 */
  
 }
 
 .scroll-bar{
     height: 400px;
     overflow-y: scroll;
+}
+
+.select-item-scroll-bar{
+  height: 700px;
+  overflow-y: scroll;
 }
   
 .map-item {
@@ -60,4 +69,8 @@ body {
     font-weight: 700;
     letter-spacing: -1px;
     cursor: pointer;
+}
+
+.basic-drop-shadow {
+  box-shadow: 0 0 4px;
 }

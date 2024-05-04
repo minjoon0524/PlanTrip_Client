@@ -1,0 +1,52 @@
+.select-area {
+}
+/* 폰트 스타일 조정 */
+.select-items > div > div {
+  font-family: Arial, sans-serif; /* 적합한 폰트 선택 */
+}
+
+.select-items {
+  display: flex;
+  justify-content: space-between; /* 아이템 사이에 간격 조정 */
+  align-items: center;
+  padding: 10px; /* 컨텐츠 주변에 여백 추가 */
+  border-bottom: solid 1px #ebebeb;
+  height: 119.8px;
+}
+
+.select-items:hover {
+  background-color: #eff7ff;
+  border: solid 2px #cdeffd;
+}
+
+.select-items > div {
+  margin-right: 10px; /* div 사이에 우측 여백 추가 */
+}
+
+.select-items > div:last-child {
+  margin-right: 0; /* 마지막 div의 여백 제거 */
+}
+
+.store-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: rgb(0, 104, 195);
+}
+
+.street-num {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0.5px 4px 0 0;
+  padding: 0 4px;
+  border: 1px solid;
+
+  border-color: rgba(var(--gray70), 1);
+  border-radius: 2px;
+  box-sizing: border-box;
+  font-size: 0.69rem;
+  font-weight: 600;
+
+  color: rgba(var(--gray40), 1);
+}
+

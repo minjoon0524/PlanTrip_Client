@@ -10,7 +10,7 @@ const HomePage = () => {
         <h1>함께 이루어 나갈 기억으로</h1>
         <h1>새로운 여행을 위한 여정을 시작하세요.</h1>
         <h3>Plan Trip으로 함께해요. </h3>
-        <Button className="p-3" variant="dark" href="/SelectTrip">
+        <Button className="p-3" variant="dark" href="/trip">
           Plan Trip과 함께하기
         </Button>
       </div>
