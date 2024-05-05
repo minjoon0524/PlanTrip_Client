@@ -4,7 +4,7 @@ import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import "./TravelCalendar.style.css"; // CSS 파일 임포트
 
-function TravelCalendar() {
+function TravelCalendar({ onTravelDaysChange }) {
   const [dateRange, setDateRange] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
   const [travelDays, setTravelDays] = useState(0); // 여행하는 총 일수를 저장하기 위한 상태
@@ -24,6 +24,8 @@ function TravelCalendar() {
     setDateRange(`${startDateFormat} - ${endDateFormat} (${duration}일)`);
     setShowCalendar(false);
     setTravelDays(duration);
+    onTravelDaysChange(end.diff(start, "days") + 1);
+    console.log("ddd",duration)
   };
 
   return (

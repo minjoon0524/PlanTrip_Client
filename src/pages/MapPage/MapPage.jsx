@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect  } from "react";
 import KakaoMap from "./../../common/Map/KakaoMap";
 import "./MapPage.style.css";
 import Stack from "react-bootstrap/Stack";
@@ -40,6 +40,14 @@ const MapPage = () => {
   // 선택된 관광지 목록 상태
   const [selectedPlaces, setSelectedPlaces] = useState([]);
 
+  // 날짜 길이 상태 및 setter 함수 정의
+  const [travelDays, setTravelDays] = useState(0);
+
+  // TravelCalendar 컴포넌트에서 호출할 함수
+  const handleTravelDaysChange = (days) => {
+    setTravelDays(days);
+    console.log(travelDays)
+  };
   // 검색어로 장소 검색
   const searchByKeyword = (event) => {
     setKeyword(""); // 입력 필드 초기화
@@ -60,6 +68,11 @@ const MapPage = () => {
     updatedList.splice(index, 1);
     setSelectedPlaces(updatedList);
   };
+    // travelDays 상태가 변경될 때마다 즉시 반영
+    useEffect(() => {
+      console.log("Travel days changed:", travelDays);
+    }, [travelDays]);
+  
 
   return (
     <div className="map-area">
@@ -80,7 +93,7 @@ const MapPage = () => {
             {/* 날짜 선택 */}
             <Row>
               {" "}
-              <TravelCalendar />
+              <TravelCalendar onTravelDaysChange={handleTravelDaysChange} />
             </Row>
             {/* 장소 검색 입력 폼 */}
             <Row>
