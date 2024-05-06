@@ -6,6 +6,7 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 const SelectList = ({ places, removeFromSelectedList }) => {
   return (
     <div className="select-area">
+      
       <div>2024/05/01</div>
       <div>{"<"} DAY1 {">"}</div>
       {Array.isArray(places) &&
