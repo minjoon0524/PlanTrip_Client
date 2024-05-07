@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect  } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import KakaoMap from "./../../common/Map/KakaoMap";
 import "./MapPage.style.css";
 import Stack from "react-bootstrap/Stack";
@@ -32,9 +32,9 @@ import SelectList from "./component/SelectList/SelectList";
 //7. 마킹한 관광지 경로표시하기
 
 const MapPage = () => {
-  const [selectedDate, setSelectedDate] = useState('2024/05/07'); // 선택된 날짜 상태 추가
-  console.log(selectedDate)
-  
+  const [selectedDate, setSelectedDate] = useState("2024/05/07"); // 선택된 날짜 상태 추가
+  console.log(selectedDate);
+
   // ref 생성
   const inputRef = useRef(null);
   // 검색어와 검색 결과 상태
@@ -42,29 +42,27 @@ const MapPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   // 선택된 관광지 목록 상태
   const [selectedPlaces, setSelectedPlaces] = useState([]);
-
+console.log(selectedPlaces)
   // 날짜 길이 상태 및 setter 함수 정의
   const [travelDays, setTravelDays] = useState(0);
 
+  // TravelCalendar 컴포넌트에서 선택한 날짜를 받아와서 상태에 저장
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
-// TravelCalendar 컴포넌트에서 선택한 날짜를 받아와서 상태에 저장
-const handleDateChange = (date) => {
-  setSelectedDate(date);
-};
-
-const moveToSelectedDate = () => {
-  // 선택된 날짜가 있을 때만 이동
-  if (selectedDate) {
-    // 여기에 선택된 날짜로 이동하는 로직을 구현할 수 있음
-    console.log("Moving to selected date:", selectedDate);
-  }
-};
-
+  const moveToSelectedDate = () => {
+    // 선택된 날짜가 있을 때만 이동
+    if (selectedDate) {
+      // 여기에 선택된 날짜로 이동하는 로직을 구현할 수 있음
+      console.log("Moving to selected date:", selectedDate);
+    }
+  };
 
   // TravelCalendar 컴포넌트에서 호출할 함수
   const handleTravelDaysChange = (days) => {
     setTravelDays(days);
-    console.log(travelDays)
+    console.log(travelDays);
   };
   // 검색어로 장소 검색
   const searchByKeyword = (event) => {
@@ -77,7 +75,8 @@ const moveToSelectedDate = () => {
 
   // 관광지를 선택 목록에 추가
   const addToSelectedList = (place) => {
-    setSelectedPlaces([...selectedPlaces, place]);
+    const selectedPlace = { date: selectedDate, place: place };
+    setSelectedPlaces([...selectedPlaces, selectedPlace]);
   };
 
   // 선택 목록에서 관광지 제거
@@ -86,14 +85,14 @@ const moveToSelectedDate = () => {
     updatedList.splice(index, 1);
     setSelectedPlaces(updatedList);
   };
-    // travelDays 상태가 변경될 때마다 즉시 반영
-    useEffect(() => {
-      console.log("Travel days changed:", travelDays);
-    }, [travelDays]);
-  
+  // travelDays 상태가 변경될 때마다 즉시 반영
+  useEffect(() => {
+    console.log("Travel days changed:", travelDays);
+  }, [travelDays]);
+
   // 날짜 조정 함수
   const adjustDate = (amount) => {
-    const parts = selectedDate.split('/');
+    const parts = selectedDate.split("/");
     const year = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10) - 1; // JavaScript의 월은 0부터 시작합니다.
     const day = parseInt(parts[2], 10);
@@ -101,9 +100,18 @@ const moveToSelectedDate = () => {
     const date = new Date(year, month, day);
     date.setDate(date.getDate() + amount); // 날짜를 조정합니다.
 
-    const newDateString = `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
+    const newDateString = `${date.getFullYear()}/${(
+      "0" +
+      (date.getMonth() + 1)
+    ).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
     setSelectedDate(newDateString); // 상태 업데이트
   };
+
+  // 선택된 날짜에 해당하는 관광지만 필터링하여 반환
+  const getSelectedPlacesByDate = () => {
+    return selectedPlaces.filter((place) => place.date === selectedDate);
+  };
+
   return (
     <div className="map-area">
       {/* 로고 및 검색 영역 */}
@@ -123,7 +131,10 @@ const moveToSelectedDate = () => {
             {/* 날짜 선택 */}
             <Row>
               {" "}
-              <TravelCalendar   onDateChange={handleDateChange} onTravelDaysChange={handleTravelDaysChange} />
+              <TravelCalendar
+                onDateChange={handleDateChange}
+                onTravelDaysChange={handleTravelDaysChange}
+              />
             </Row>
             {/* 장소 검색 입력 폼 */}
             <Row>
@@ -169,14 +180,17 @@ const moveToSelectedDate = () => {
       </div>
       {/* 선택된 관광지 목록 */}
       <div className="sectionBorder select-item">
-<Row> <button onClick={() => adjustDate(-1)}>-1</button>
-        <span>{selectedDate}</span>
-        <button onClick={() => adjustDate(1)}>+1</button></Row>
+        <Row>
+          {" "}
+          <button onClick={() => adjustDate(-1)}>-1</button>
+          <span>{selectedDate}</span>
+          <button onClick={() => adjustDate(1)}>+1</button>
+        </Row>
         <Row style={{ width: "max-content" }}>
           <Stack gap={2} className="select-item-scroll-bar">
             <div className="p-2">
               <SelectList
-                places={selectedPlaces}
+                places={getSelectedPlacesByDate()}
                 removeFromSelectedList={removeFromSelectedList}
               />
             </div>
@@ -185,7 +199,11 @@ const moveToSelectedDate = () => {
       </div>
       {/* 지도 영역 */}
       <div className="sectionBorder map-item">
-        <KakaoMap keyword={keyword} onSearchResults={setSearchResults} />
+        <KakaoMap
+          keyword={keyword}
+          onSearchResults={setSearchResults}
+          selectedPlaces={getSelectedPlacesByDate()}
+        />
       </div>
     </div>
   );

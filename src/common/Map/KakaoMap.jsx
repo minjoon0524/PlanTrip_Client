@@ -4,11 +4,19 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
-const KakaoMap = ({keyword,onSearchResults}) => {
+const KakaoMap = ({keyword,onSearchResults,selectedPlaces}) => {
   const [info, setInfo] = useState()
   const [markers, setMarkers] = useState([])
   const [map, setMap] = useState()
+  const [position,setPosition]=useState([]);
 
+  const positions = selectedPlaces.map(place => ({
+    title: place.place.place_name,
+    latlng: { lat: parseFloat(place.place.y), lng: parseFloat(place.place.x) }
+  }));
+
+  console.log(selectedPlaces)
+  console.log(positions)
   useEffect(() => {
     if (!map) return
     const ps = new kakao.maps.services.Places()

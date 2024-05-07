@@ -3,12 +3,7 @@ import "./TourismList.style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-const TourismList = ({ places, addToSelectedList,travelDays  }) => {
-   // travelDays의 길이에 맞게 빈 배열을 생성합니다.
-   const placeArrays = Array.from({ length: travelDays }, () => []);
-  
-   console.log(placeArrays)
-  
+const TourismList = ({ places, addToSelectedList  }) => {  
   return (
     <div className="tourism-area">
       {Array.isArray(places) &&
