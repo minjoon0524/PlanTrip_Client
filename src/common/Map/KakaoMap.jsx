@@ -4,79 +4,123 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
-const KakaoMap = ({keyword,onSearchResults,selectedPlaces}) => {
-  const [info, setInfo] = useState()
-  const [markers, setMarkers] = useState([])
-  const [map, setMap] = useState()
-  const [position,setPosition]=useState([]);
+const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
+  const [info, setInfo] = useState();
+  const [markers, setMarkers] = useState([]);
+  const [map, setMap] = useState();
+  const [defaultPosition, setDefaultPosition] = useState({
+    lat: 37.566826, // 서울의 기본 위도
+    lng: 126.9786567 // 서울의 기본 경도
+  });
+  const [defaultLevel, setDefaultLevel] = useState(3); // 기본 레벨
 
-  const positions = selectedPlaces.map(place => ({
-    title: place.place.place_name,
-    latlng: { lat: parseFloat(place.place.y), lng: parseFloat(place.place.x) }
-  }));
-
-  console.log(selectedPlaces)
-  console.log(positions)
   useEffect(() => {
-    if (!map) return
-    const ps = new kakao.maps.services.Places()
-
-    ps.keywordSearch(keyword, (data, status, _pagination) => {
-      if (status === kakao.maps.services.Status.OK) {
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        const bounds = new kakao.maps.LatLngBounds()
-        let markers = []
-        console.log(data)
-        onSearchResults(data);
-        for (var i = 0; i < data.length; i++) {
-          // @ts-ignore
-          markers.push({
-            position: {
-              lat: data[i].y,
-              lng: data[i].x,
-            },
-            content: data[i].place_name,
-          })
-          // @ts-ignore
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
+    // 현재 위치 가져오기
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          setDefaultPosition({ lat: latitude, lng: longitude });
+        },
+        error => {
+          console.error("Error getting geolocation:", error);
         }
-        setMarkers(markers)
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds)
+  useEffect(() => {
+    if (!map) return;
+
+    // 기본 위치에 마커 설정
+    const defaultMarker = {
+      position: defaultPosition,
+      content: "Default Location"
+    };
+
+    const bounds = new kakao.maps.LatLngBounds();
+    bounds.extend(new kakao.maps.LatLng(defaultPosition.lat, defaultPosition.lng));
+    setMarkers([defaultMarker]);
+    map.setBounds(bounds);
+    map.setLevel(defaultLevel);
+
+    // 검색된 장소 표시
+    if (selectedPlaces.length > 0) {
+      const newMarkers = selectedPlaces.map(place => ({
+        position: {
+          lat: parseFloat(place.place.y),
+          lng: parseFloat(place.place.x)
+        },
+        content: place.place.place_name
+      }));
+
+      // 새로운 마커를 기존 마커와 합치기
+      setMarkers(prevMarkers => [...prevMarkers, ...newMarkers]);
+
+      // 새로운 마커들을 포함하여 영역 재설정
+      const newBounds = new kakao.maps.LatLngBounds();
+      newMarkers.forEach(marker => newBounds.extend(new kakao.maps.LatLng(marker.position.lat, marker.position.lng)));
+      map.setBounds(newBounds);
+    }
+  }, [map, defaultPosition, defaultLevel, selectedPlaces]);
+
+  // 키워드 검색
+  useEffect(() => {
+    if (!map || !keyword) return;
+
+    const ps = new kakao.maps.services.Places();
+
+    ps.keywordSearch(keyword, (data, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        onSearchResults(data);
+        
+        // 검색된 장소의 bounds 설정
+        const bounds = new kakao.maps.LatLngBounds();
+        data.forEach(place => bounds.extend(new kakao.maps.LatLng(place.y, place.x)));
+        map.setBounds(bounds);
+
+        // 검색된 장소 중 첫 번째 장소의 위치를 기준으로 레벨 설정
+        if (data.length > 0) {
+          const firstPlace = data[0];
+          const level = calculateLevel(firstPlace);
+          setDefaultLevel(level);
+        }
       }
-    })
-  }, [map,keyword,onSearchResults])
+    });
+  }, [map, keyword, onSearchResults]);
+
+  // 레벨 계산 함수
+  const calculateLevel = (place) => {
+    // 임의의 기준을 설정하여 레벨 계산 (예: 좌표의 소수점 자리수를 이용한 계산)
+    const latLength = place.y.toString().split('.')[1].length;
+    const lngLength = place.x.toString().split('.')[1].length;
+    const level = Math.min(10 - Math.max(latLength, lngLength), 5); // 최대 레벨 5
+    return level;
+  };
 
   return (
-    
     <div className="map-area">
-    <Map // 로드뷰를 표시할 Container
-      center={{
-        lat: 37.566826,
-        lng: 126.9786567,
-      }}
-      style={{
-        width: '100%',
-        height: '100%'
-      }}
-      level={3}
-      onCreate={setMap}
-    >
-      {markers.map((marker) => (
-        <MapMarker
-          key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-          position={marker.position}
-          onClick={() => setInfo(marker)}
-        >
-          {info &&info.content === marker.content && (
-            <div style={{color:"#000"}}>{marker.content}</div>
-          )}
-        </MapMarker>
-      ))}
-    </Map>
+      <Map
+        center={defaultPosition}
+        style={{ width: '100%', height: '100%' }}
+        onCreate={setMap}
+      >
+        {markers.map((marker, index) => (
+          <MapMarker
+            key={`marker-${index}`}
+            position={marker.position}
+            onClick={() => setInfo(marker)}
+          >
+            {info && info.content === marker.content && (
+              <div style={{ color: "#000" }}>{marker.content}</div>
+            )}
+          </MapMarker>
+        ))}
+      </Map>
     </div>
-  )
-}
+  );
+};
+
 export default KakaoMap;

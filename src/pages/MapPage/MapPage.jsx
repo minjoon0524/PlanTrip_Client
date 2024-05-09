@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import KakaoMap from "./../../common/Map/KakaoMap";
 import "./MapPage.style.css";
 import Stack from "react-bootstrap/Stack";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
@@ -18,96 +17,74 @@ import TourismList from "./component/TourismList/TourismList";
 import TravelCalendar from "./component/Calendar/TravelCalendar";
 import SelectList from "./component/SelectList/SelectList";
 
-//1. 3등분 레이아웃 조정(완료)
-//a. 날짜 선택 라이브러리 불러오기(완료)
-//2. 내가 관광지를 선택했을 때 선택영역에 표시되게 하기
-//3. 표시된 곳에서 Delete버튼 누르면 사라지게 하기
-//4. 카카오 API로 검색기능 추가
-// - 검색은 가능하나 지도가 키워드 하나하나에 바뀜(키워드 완성 후 바뀔 수 있도록 수정 예정)
-//5. 카카오 API로 관광지 목록 뜨게하기
-// - 첫 시작시 뜨게 할 것은? 음... [해수욕장,산,놀이동산,계곡 .. 등]을 넣고 랜덤으로 표시되게 할까?
-// - 검색하면 리스트가 바뀔 수 있도록 하기
-
-//6. 카카오 API활용 내가 선택한 관광지 마킹하기
-//7. 마킹한 관광지 경로표시하기
-
 const MapPage = () => {
-  const [selectedDate, setSelectedDate] = useState("2024/05/07"); // 선택된 날짜 상태 추가
-  console.log(selectedDate);
-
-  // ref 생성
+  const [selectedDate, setSelectedDate] = useState("2024/05/07");
   const inputRef = useRef(null);
-  // 검색어와 검색 결과 상태
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  // 선택된 관광지 목록 상태
   const [selectedPlaces, setSelectedPlaces] = useState([]);
-console.log(selectedPlaces)
-  // 날짜 길이 상태 및 setter 함수 정의
   const [travelDays, setTravelDays] = useState(0);
+  const [searchTimer, setSearchTimer] = useState(null); // 딜레이된 검색을 위한 타이머 상태
 
-  // TravelCalendar 컴포넌트에서 선택한 날짜를 받아와서 상태에 저장
+  // 날짜 변경 핸들러
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const moveToSelectedDate = () => {
-    // 선택된 날짜가 있을 때만 이동
-    if (selectedDate) {
-      // 여기에 선택된 날짜로 이동하는 로직을 구현할 수 있음
-      console.log("Moving to selected date:", selectedDate);
-    }
-  };
-
-  // TravelCalendar 컴포넌트에서 호출할 함수
+  // 여행 일수 변경 핸들러
   const handleTravelDaysChange = (days) => {
     setTravelDays(days);
-    console.log(travelDays);
-  };
-  // 검색어로 장소 검색
-  const searchByKeyword = (event) => {
-    setKeyword(""); // 입력 필드 초기화
-    event.preventDefault();
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
   };
 
-  // 관광지를 선택 목록에 추가
+  // 키워드 검색 실행 함수
+const searchByKeyword = (event) => {
+  event.preventDefault(); // 폼의 기본 동작 방지
+  if (!keyword.trim()) return; // 공백이면 검색하지 않음
+  clearTimeout(searchTimer); // 이전 타이머 제거
+  const timer = setTimeout(() => {
+    // 일정 시간이 지난 후 검색 실행
+    // 여기에 검색 로직을 실행합니다.
+    console.log("검색 실행:", keyword);
+  }, 1000); // 1초 후 검색 실행
+  setSearchTimer(timer); // 타이머 상태 업데이트
+};
+
+// Enter 키 입력 시 검색 실행
+const handleKeyPress = (event) => {
+  if (event.key === "Enter") {
+    searchByKeyword(event);
+  }
+};
+
+
+  // 선택된 관광지 목록에 추가
   const addToSelectedList = (place) => {
     const selectedPlace = { date: selectedDate, place: place };
     setSelectedPlaces([...selectedPlaces, selectedPlace]);
   };
 
-  // 선택 목록에서 관광지 제거
+  // 선택된 관광지 목록에서 제거
   const removeFromSelectedList = (index) => {
     const updatedList = [...selectedPlaces];
     updatedList.splice(index, 1);
     setSelectedPlaces(updatedList);
   };
-  // travelDays 상태가 변경될 때마다 즉시 반영
-  useEffect(() => {
-    console.log("Travel days changed:", travelDays);
-  }, [travelDays]);
 
   // 날짜 조정 함수
   const adjustDate = (amount) => {
     const parts = selectedDate.split("/");
     const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // JavaScript의 월은 0부터 시작합니다.
+    const month = parseInt(parts[1], 10) - 1;
     const day = parseInt(parts[2], 10);
-
     const date = new Date(year, month, day);
-    date.setDate(date.getDate() + amount); // 날짜를 조정합니다.
-
+    date.setDate(date.getDate() + amount);
     const newDateString = `${date.getFullYear()}/${(
-      "0" +
-      (date.getMonth() + 1)
+      "0" + (date.getMonth() + 1)
     ).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
-    setSelectedDate(newDateString); // 상태 업데이트
+    setSelectedDate(newDateString);
   };
 
-  // 선택된 날짜에 해당하는 관광지만 필터링하여 반환
+  // 선택된 날짜에 해당하는 관광지 목록 반환
   const getSelectedPlacesByDate = () => {
     return selectedPlaces.filter((place) => place.date === selectedDate);
   };
@@ -139,19 +116,16 @@ console.log(selectedPlaces)
             {/* 장소 검색 입력 폼 */}
             <Row>
               <Col>
-                <Form
-                  onSubmit={(event) => {
-                    searchByKeyword(event);
-                    setKeyword(""); // 입력 필드 초기화
-                  }}
-                >
+                <Form onSubmit={searchByKeyword}>
                   <InputGroup className="mb-3">
                     <Form.Control
                       ref={inputRef} // ref 설정
                       placeholder="장소를 검색하세요"
                       aria-label="장소를 검색하세요"
                       aria-describedby="basic-addon2"
+                      value={keyword}
                       onChange={(event) => setKeyword(event.target.value)}
+                      onKeyPress={handleKeyPress} // Enter 키 입력 시 검색 실행
                     />
                     <Button
                       variant="outline-secondary"
