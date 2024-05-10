@@ -37,25 +37,24 @@ const MapPage = () => {
   };
 
   // 키워드 검색 실행 함수
-const searchByKeyword = (event) => {
-  event.preventDefault(); // 폼의 기본 동작 방지
-  if (!keyword.trim()) return; // 공백이면 검색하지 않음
-  clearTimeout(searchTimer); // 이전 타이머 제거
-  const timer = setTimeout(() => {
-    // 일정 시간이 지난 후 검색 실행
-    // 여기에 검색 로직을 실행합니다.
-    console.log("검색 실행:", keyword);
-  }, 1000); // 1초 후 검색 실행
-  setSearchTimer(timer); // 타이머 상태 업데이트
-};
+  const searchByKeyword = (event) => {
+    event.preventDefault(); // 폼의 기본 동작 방지
+    if (!keyword.trim()) return; // 공백이면 검색하지 않음
+    clearTimeout(searchTimer); // 이전 타이머 제거
+    const timer = setTimeout(() => {
+      // 일정 시간이 지난 후 검색 실행
+      // 여기에 검색 로직을 실행합니다.
+      console.log("검색 실행:", keyword);
+    }, 1000); // 1초 후 검색 실행
+    setSearchTimer(timer); // 타이머 상태 업데이트
+  };
 
-// Enter 키 입력 시 검색 실행
-const handleKeyPress = (event) => {
-  if (event.key === "Enter") {
-    searchByKeyword(event);
-  }
-};
-
+  // Enter 키 입력 시 검색 실행
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      searchByKeyword(event);
+    }
+  };
 
   // 선택된 관광지 목록에 추가
   const addToSelectedList = (place) => {
@@ -79,7 +78,8 @@ const handleKeyPress = (event) => {
     const date = new Date(year, month, day);
     date.setDate(date.getDate() + amount);
     const newDateString = `${date.getFullYear()}/${(
-      "0" + (date.getMonth() + 1)
+      "0" +
+      (date.getMonth() + 1)
     ).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
     setSelectedDate(newDateString);
   };

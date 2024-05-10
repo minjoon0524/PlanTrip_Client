@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
@@ -107,6 +107,7 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
         style={{ width: '100%', height: '100%' }}
         onCreate={setMap}
       >
+        {/* 마커 표시 */}
         {markers.map((marker, index) => (
           <MapMarker
             key={`marker-${index}`}
@@ -118,6 +119,18 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
             )}
           </MapMarker>
         ))}
+
+        {/* 선택된 장소들 간의 선 표시 */}
+        <Polyline
+          path={selectedPlaces.map(place => ({
+            lat: parseFloat(place.place.y),
+            lng: parseFloat(place.place.x)
+          }))}
+          strokeWeight={5} // 선의 두께
+          strokeColor={"#FFAE00"} // 선의 색상
+          strokeOpacity={0.7} // 선의 투명도
+          strokeStyle={"solid"} // 선의 스타일
+        />
       </Map>
     </div>
   );
