@@ -10,7 +10,7 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
   const [map, setMap] = useState();
   const [defaultPosition, setDefaultPosition] = useState({
     lat: 37.566826, // 서울의 기본 위도
-    lng: 126.9786567 // 서울의 기본 경도
+    lng: 126.9786567, // 서울의 기본 경도
   });
   const [defaultLevel, setDefaultLevel] = useState(3); // 기본 레벨
 
@@ -18,11 +18,11 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
     // 현재 위치 가져오기
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           const { latitude, longitude } = position.coords;
           setDefaultPosition({ lat: latitude, lng: longitude });
         },
-        error => {
+        (error) => {
           console.error("Error getting geolocation:", error);
         }
       );
@@ -37,31 +37,37 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
     // 기본 위치에 마커 설정
     const defaultMarker = {
       position: defaultPosition,
-      content: "Default Location"
+      content: "Default Location",
     };
 
     const bounds = new kakao.maps.LatLngBounds();
-    bounds.extend(new kakao.maps.LatLng(defaultPosition.lat, defaultPosition.lng));
+    bounds.extend(
+      new kakao.maps.LatLng(defaultPosition.lat, defaultPosition.lng)
+    );
     setMarkers([defaultMarker]);
     map.setBounds(bounds);
     map.setLevel(defaultLevel);
 
     // 검색된 장소 표시
     if (selectedPlaces.length > 0) {
-      const newMarkers = selectedPlaces.map(place => ({
+      const newMarkers = selectedPlaces.map((place) => ({
         position: {
           lat: parseFloat(place.place.y),
-          lng: parseFloat(place.place.x)
+          lng: parseFloat(place.place.x),
         },
-        content: place.place.place_name
+        content: place.place.place_name,
       }));
 
       // 새로운 마커를 기존 마커와 합치기
-      setMarkers(prevMarkers => [...prevMarkers, ...newMarkers]);
+      setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
 
       // 새로운 마커들을 포함하여 영역 재설정
       const newBounds = new kakao.maps.LatLngBounds();
-      newMarkers.forEach(marker => newBounds.extend(new kakao.maps.LatLng(marker.position.lat, marker.position.lng)));
+      newMarkers.forEach((marker) =>
+        newBounds.extend(
+          new kakao.maps.LatLng(marker.position.lat, marker.position.lng)
+        )
+      );
       map.setBounds(newBounds);
     }
   }, [map, defaultPosition, defaultLevel, selectedPlaces]);
@@ -75,10 +81,12 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
     ps.keywordSearch(keyword, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
         onSearchResults(data);
-        
+
         // 검색된 장소의 bounds 설정
         const bounds = new kakao.maps.LatLngBounds();
-        data.forEach(place => bounds.extend(new kakao.maps.LatLng(place.y, place.x)));
+        data.forEach((place) =>
+          bounds.extend(new kakao.maps.LatLng(place.y, place.x))
+        );
         map.setBounds(bounds);
 
         // 검색된 장소 중 첫 번째 장소의 위치를 기준으로 레벨 설정
@@ -94,8 +102,8 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
   // 레벨 계산 함수
   const calculateLevel = (place) => {
     // 임의의 기준을 설정하여 레벨 계산 (예: 좌표의 소수점 자리수를 이용한 계산)
-    const latLength = place.y.toString().split('.')[1].length;
-    const lngLength = place.x.toString().split('.')[1].length;
+    const latLength = place.y.toString().split(".")[1].length;
+    const lngLength = place.x.toString().split(".")[1].length;
     const level = Math.min(10 - Math.max(latLength, lngLength), 5); // 최대 레벨 5
     return level;
   };
@@ -104,7 +112,7 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
     <div className="map-area">
       <Map
         center={defaultPosition}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: "100%", height: "100%" }}
         onCreate={setMap}
       >
         {/* 마커 표시 */}
@@ -122,11 +130,12 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
 
         {/* 선택된 장소들 간의 선 표시 */}
         <Polyline
-          path={selectedPlaces.map(place => ({
+          path={selectedPlaces.map((place) => ({
             lat: parseFloat(place.place.y),
-            lng: parseFloat(place.place.x)
+            lng: parseFloat(place.place.x),
           }))}
           strokeWeight={5} // 선의 두께
+          // 날짜별로 색상 구분 예정
           strokeColor={"#FFAE00"} // 선의 색상
           strokeOpacity={0.7} // 선의 투명도
           strokeStyle={"solid"} // 선의 스타일
