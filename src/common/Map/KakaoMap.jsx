@@ -1,10 +1,14 @@
+// KakaoMap.jsx
+
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
 import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
+import { COLORS } from './../../datas/map-constants';
 
 const { kakao } = window;
 
 const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
+  console.log(selectedPlaces);
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
@@ -56,6 +60,8 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
           lng: parseFloat(place.place.x),
         },
         content: place.place.place_name,
+        dayNumber: place.dayNumber, // dayNumber 추가
+        visitNumbers: place.visitNumbers, // visitNumbers 추가
       }));
 
       // 새로운 마커를 기존 마커와 합치기
@@ -115,12 +121,22 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
         style={{ width: "100%", height: "100%" }}
         onCreate={setMap}
       >
-        {/* 마커 표시 */}
         {markers.map((marker, index) => (
           <MapMarker
             key={`marker-${index}`}
             position={marker.position}
             onClick={() => setInfo(marker)}
+            image={{
+              src:
+                index === 0 ? "/markers/marker.svg" : // 현재 위치 마커인 경우 marker.svg 사용
+                `/markers/marker${marker.dayNumber % COLORS.length}/marker-${
+                  marker.dayNumber % COLORS.length
+                }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
+              size: {
+                width: 32,
+                height: 32,
+              },
+            }}
           >
             {info && info.content === marker.content && (
               <div style={{ color: "#000" }}>{marker.content}</div>

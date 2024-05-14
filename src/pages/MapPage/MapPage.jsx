@@ -1,3 +1,5 @@
+// MapPage.jsx
+
 import React, { useState, useRef } from "react";
 import KakaoMap from "./../../common/Map/KakaoMap";
 import "./MapPage.style.css";
@@ -16,6 +18,7 @@ import logo from "../../img/logo.png";
 import TourismList from "./component/TourismList/TourismList";
 import TravelCalendar from "./component/Calendar/TravelCalendar";
 import SelectList from "./component/SelectList/SelectList";
+import moment from "moment";
 
 const MapPage = () => {
   const [selectedDate, setSelectedDate] = useState("2024/05/07");
@@ -25,6 +28,7 @@ const MapPage = () => {
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [travelDays, setTravelDays] = useState(0);
   const [searchTimer, setSearchTimer] = useState(null); // 딜레이된 검색을 위한 타이머 상태
+  const [visitNumbers, setVisitNumbers] = useState(0); // 방문 순서를 위한 상태
 
   // 날짜 변경 핸들러
   const handleDateChange = (date) => {
@@ -56,18 +60,38 @@ const MapPage = () => {
     }
   };
 
-  // 선택된 관광지 목록에 추가
-  const addToSelectedList = (place) => {
-    const selectedPlace = { date: selectedDate, place: place };
-    setSelectedPlaces([...selectedPlaces, selectedPlace]);
+// 선택된 관광지 목록에 추가
+const addToSelectedList = (place) => {
+  const dayNumbers = getDayNumbers(selectedDate, travelDays);
+  const visitNumbersByDate = selectedPlaces.filter((p) => p.date === selectedDate).length + 1; // 선택된 날짜별 방문 순서
+  const selectedPlace = {
+    date: selectedDate,
+    place: place,
+    dayNumber: dayNumbers,
+    visitNumbers: visitNumbersByDate, // 해당 날짜의 방문 순서
   };
+  setSelectedPlaces([...selectedPlaces, selectedPlace]);
+};
 
-  // 선택된 관광지 목록에서 제거
-  const removeFromSelectedList = (index) => {
-    const updatedList = [...selectedPlaces];
-    updatedList.splice(index, 1);
-    setSelectedPlaces(updatedList);
-  };
+
+// 선택된 관광지 목록에서 제거
+const removeFromSelectedList = (index) => {
+  const updatedList = [...selectedPlaces];
+  updatedList.splice(index, 1);
+  setSelectedPlaces(updatedList);
+  
+  // 해당 날짜의 방문 순서 다시 할당
+  const selectedDatePlaces = updatedList.filter((place) => place.date === selectedDate);
+  const newSelectedPlaces = selectedDatePlaces.map((place, idx) => ({
+    ...place,
+    visitNumbers: idx + 1,
+  }));
+  setSelectedPlaces((prev) => [
+    ...prev.filter((place) => place.date !== selectedDate), // 기존 리스트에서 해당 날짜의 항목 제외
+    ...newSelectedPlaces, // 수정된 방문 순서 적용된 항목 추가
+  ]);
+};
+
 
   // 날짜 조정 함수
   const adjustDate = (amount) => {
@@ -87,6 +111,16 @@ const MapPage = () => {
   // 선택된 날짜에 해당하는 관광지 목록 반환
   const getSelectedPlacesByDate = () => {
     return selectedPlaces.filter((place) => place.date === selectedDate);
+  };
+
+  // TravelCalendar 컴포넌트에서 여행 일수와 시작 날짜를 이용하여 dayNumber를 생성하는 함수
+  const getDayNumbers = (startDate, travelDays) => {
+    const start = moment(startDate, "YYYY/MM/DD");
+    const dayNumbers = Array.from(
+      { length: travelDays },
+      (_, index) => start.clone().add(index, "days").format("D")
+    );
+    return dayNumbers;
   };
 
   return (

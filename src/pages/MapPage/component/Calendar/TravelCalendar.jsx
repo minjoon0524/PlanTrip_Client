@@ -1,4 +1,5 @@
-// TravelCalendar 컴포넌트
+// TravelCalendar.jsx
+
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
@@ -23,7 +24,6 @@ function TravelCalendar({ onTravelDaysChange, onDateChange }) {
     setShowCalendar(false);
     onTravelDaysChange(duration);
     onDateChange(startDateFormat); // 선택된 시작 날짜를 상위 컴포넌트로 전달
-    
   };
 
   return (
