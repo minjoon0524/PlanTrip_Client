@@ -28,8 +28,8 @@ const MapPage = () => {
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [travelDays, setTravelDays] = useState(0);
   const [searchTimer, setSearchTimer] = useState(null); // 딜레이된 검색을 위한 타이머 상태
-  const [visitNumbers, setVisitNumbers] = useState(0); // 방문 순서를 위한 상태
-
+  //const [visitNumbers, setVisitNumbers] = useState(0); // 방문 순서를 위한 상태
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   // 날짜 변경 핸들러
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -73,7 +73,6 @@ const addToSelectedList = (place) => {
   setSelectedPlaces([...selectedPlaces, selectedPlace]);
 };
 
-
 // 선택된 관광지 목록에서 제거
 const removeFromSelectedList = (index) => {
   const updatedList = [...selectedPlaces];
@@ -95,17 +94,21 @@ const removeFromSelectedList = (index) => {
 
   // 날짜 조정 함수
   const adjustDate = (amount) => {
+    //dayNumber의 값을 불러오기 위한 작업
+    setSelectedDayIndex(selectedDayIndex + amount);
+    console.log(selectedDayIndex)
+
     const parts = selectedDate.split("/");
     const year = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10) - 1;
     const day = parseInt(parts[2], 10);
     const date = new Date(year, month, day);
     date.setDate(date.getDate() + amount);
-    const newDateString = `${date.getFullYear()}/${(
-      "0" +
-      (date.getMonth() + 1)
-    ).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
+    const newDateString = `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
     setSelectedDate(newDateString);
+  
+    // dayNumbers 반환
+    return getDayNumbers(newDateString, travelDays);
   };
 
   // 선택된 날짜에 해당하는 관광지 목록 반환
@@ -114,14 +117,16 @@ const removeFromSelectedList = (index) => {
   };
 
   // TravelCalendar 컴포넌트에서 여행 일수와 시작 날짜를 이용하여 dayNumber를 생성하는 함수
-  const getDayNumbers = (startDate, travelDays) => {
-    const start = moment(startDate, "YYYY/MM/DD");
-    const dayNumbers = Array.from(
-      { length: travelDays },
-      (_, index) => start.clone().add(index, "days").format("D")
-    );
-    return dayNumbers;
-  };
+// 선택된 날짜에 해당하는 dayNumbers 반환
+const getDayNumbers = (startDate, travelDays) => {
+  const start = moment(startDate, "YYYY/MM/DD");
+  const today = moment(selectedDate, "YYYY/MM/DD");
+  const dayNumbers = Array.from({ length: travelDays }, (_, index) =>
+    start.clone().add(index, "days").diff(today, 'days')
+  );
+  return dayNumbers;
+};
+
 
   return (
     <div className="map-area">
@@ -211,6 +216,7 @@ const removeFromSelectedList = (index) => {
           keyword={keyword}
           onSearchResults={setSearchResults}
           selectedPlaces={getSelectedPlacesByDate()}
+          selectedDayIndex={selectedDayIndex}
         />
       </div>
     </div>

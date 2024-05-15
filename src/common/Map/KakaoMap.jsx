@@ -3,12 +3,18 @@
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
 import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
-import { COLORS } from './../../datas/map-constants';
+import { COLORS } from "./../../datas/map-constants";
 
 const { kakao } = window;
 
-const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
+const KakaoMap = ({
+  keyword,
+  onSearchResults,
+  selectedPlaces,
+  selectedDayIndex,
+}) => {
   console.log(selectedPlaces);
+  // console.log("dddd",selectedPlaces[0].dayNumber)
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
@@ -41,7 +47,7 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
     // 기본 위치에 마커 설정
     const defaultMarker = {
       position: defaultPosition,
-      content: "Default Location",
+      content: "현재위치",
     };
 
     const bounds = new kakao.maps.LatLngBounds();
@@ -66,7 +72,7 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
 
       // 새로운 마커를 기존 마커와 합치기
       setMarkers((prevMarkers) => [...prevMarkers, ...newMarkers]);
-
+      console.log(markers);
       // 새로운 마커들을 포함하여 영역 재설정
       const newBounds = new kakao.maps.LatLngBounds();
       newMarkers.forEach((marker) =>
@@ -113,7 +119,9 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
     const level = Math.min(10 - Math.max(latLength, lngLength), 5); // 최대 레벨 5
     return level;
   };
-
+  if (selectedPlaces.length > 0 && selectedPlaces[0].dayNumber) {
+    console.log(selectedPlaces[0].dayNumber);
+  }
   return (
     <div className="map-area">
       <Map
@@ -121,28 +129,36 @@ const KakaoMap = ({ keyword, onSearchResults, selectedPlaces }) => {
         style={{ width: "100%", height: "100%" }}
         onCreate={setMap}
       >
-        {markers.map((marker, index) => (
-          <MapMarker
-            key={`marker-${index}`}
-            position={marker.position}
-            onClick={() => setInfo(marker)}
-            image={{
-              src:
-                index === 0 ? "/markers/marker.svg" : // 현재 위치 마커인 경우 marker.svg 사용
-                `/markers/marker${marker.dayNumber % COLORS.length}/marker-${
-                  marker.dayNumber % COLORS.length
-                }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
-              size: {
-                width: 32,
-                height: 32,
-              },
-            }}
-          >
-            {info && info.content === marker.content && (
-              <div style={{ color: "#000" }}>{marker.content}</div>
-            )}
-          </MapMarker>
-        ))}
+       {markers.map((marker, index) => (
+  <MapMarker
+    key={`marker-${index}`}
+    position={marker.position}
+    onClick={() => setInfo(marker)}
+    image={{
+      src:
+        index === 0
+          ? "/markers/marker.svg" // 현재 위치 마커인 경우 marker.svg 사용
+          : `/markers/marker${
+              marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
+                ? marker.dayNumber[selectedDayIndex] % COLORS.length
+                : 12
+            }/marker-${
+              marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
+                ? marker.dayNumber[selectedDayIndex] % COLORS.length
+                : 12
+            }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
+      size: {
+        width: 32,
+        height: 32,
+      },
+    }}
+  >
+    {info && info.content === marker.content && (
+      <div style={{ color: "#000" }}>{marker.content}</div>
+    )}
+  </MapMarker>
+))}
+
 
         {/* 선택된 장소들 간의 선 표시 */}
         <Polyline
