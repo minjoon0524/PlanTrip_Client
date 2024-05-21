@@ -1,5 +1,3 @@
-// MapPage.jsx
-
 import React, { useState, useRef } from "react";
 import KakaoMap from "./../../common/Map/KakaoMap";
 import "./MapPage.style.css";
@@ -10,11 +8,12 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import {
-  faLocationCrosshairs,
+  faArrowLeft,
+  faArrowRight,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logo from "../../img/logo.png";
+import logo from "../../img/minilogo.png";
 import TourismList from "./component/TourismList/TourismList";
 import TravelCalendar from "./component/Calendar/TravelCalendar";
 import SelectList from "./component/SelectList/SelectList";
@@ -27,9 +26,9 @@ const MapPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [travelDays, setTravelDays] = useState(0);
-  const [searchTimer, setSearchTimer] = useState(null); // 딜레이된 검색을 위한 타이머 상태
-  //const [visitNumbers, setVisitNumbers] = useState(0); // 방문 순서를 위한 상태
+  const [searchTimer, setSearchTimer] = useState(null);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+
   // 날짜 변경 핸들러
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -42,15 +41,13 @@ const MapPage = () => {
 
   // 키워드 검색 실행 함수
   const searchByKeyword = (event) => {
-    event.preventDefault(); // 폼의 기본 동작 방지
-    if (!keyword.trim()) return; // 공백이면 검색하지 않음
-    clearTimeout(searchTimer); // 이전 타이머 제거
+    event.preventDefault();
+    if (!keyword.trim()) return;
+    clearTimeout(searchTimer);
     const timer = setTimeout(() => {
-      // 일정 시간이 지난 후 검색 실행
-      // 여기에 검색 로직을 실행합니다.
       console.log("검색 실행:", keyword);
-    }, 1000); // 1초 후 검색 실행
-    setSearchTimer(timer); // 타이머 상태 업데이트
+    }, 1000);
+    setSearchTimer(timer);
   };
 
   // Enter 키 입력 시 검색 실행
@@ -60,43 +57,44 @@ const MapPage = () => {
     }
   };
 
-// 선택된 관광지 목록에 추가
-const addToSelectedList = (place) => {
-  const dayNumbers = getDayNumbers(selectedDate, travelDays);
-  const visitNumbersByDate = selectedPlaces.filter((p) => p.date === selectedDate).length + 1; // 선택된 날짜별 방문 순서
-  const selectedPlace = {
-    date: selectedDate,
-    place: place,
-    dayNumber: dayNumbers,
-    visitNumbers: visitNumbersByDate, // 해당 날짜의 방문 순서
+  // 선택된 관광지 목록에 추가
+  const addToSelectedList = (place) => {
+    const dayNumbers = getDayNumbers(selectedDate, travelDays);
+    const visitNumbersByDate =
+      selectedPlaces.filter((p) => p.date === selectedDate).length + 1;
+    const selectedPlace = {
+      date: selectedDate,
+      place: place,
+      dayNumber: dayNumbers,
+      visitNumbers: visitNumbersByDate,
+    };
+    setSelectedPlaces([...selectedPlaces, selectedPlace]);
   };
-  setSelectedPlaces([...selectedPlaces, selectedPlace]);
-};
 
-// 선택된 관광지 목록에서 제거
-const removeFromSelectedList = (index) => {
-  const updatedList = [...selectedPlaces];
-  updatedList.splice(index, 1);
-  setSelectedPlaces(updatedList);
-  
-  // 해당 날짜의 방문 순서 다시 할당
-  const selectedDatePlaces = updatedList.filter((place) => place.date === selectedDate);
-  const newSelectedPlaces = selectedDatePlaces.map((place, idx) => ({
-    ...place,
-    visitNumbers: idx + 1,
-  }));
-  setSelectedPlaces((prev) => [
-    ...prev.filter((place) => place.date !== selectedDate), // 기존 리스트에서 해당 날짜의 항목 제외
-    ...newSelectedPlaces, // 수정된 방문 순서 적용된 항목 추가
-  ]);
-};
+  // 선택된 관광지 목록에서 제거
+  const removeFromSelectedList = (index) => {
+    const updatedList = [...selectedPlaces];
+    updatedList.splice(index, 1);
+    setSelectedPlaces(updatedList);
 
+    const selectedDatePlaces = updatedList.filter(
+      (place) => place.date === selectedDate
+    );
+    const newSelectedPlaces = selectedDatePlaces.map((place, idx) => ({
+      ...place,
+      visitNumbers: idx + 1,
+    }));
+    setSelectedPlaces((prev) => [
+      ...prev.filter((place) => place.date !== selectedDate),
+      ...newSelectedPlaces,
+    ]);
+  };
 
   // 날짜 조정 함수
   const adjustDate = (amount) => {
-    //dayNumber의 값을 불러오기 위한 작업
-    setSelectedDayIndex(selectedDayIndex + amount);
-    console.log(selectedDayIndex)
+    const newIndex = selectedDayIndex + amount;
+
+    setSelectedDayIndex(newIndex);
 
     const parts = selectedDate.split("/");
     const year = parseInt(parts[0], 10);
@@ -104,11 +102,11 @@ const removeFromSelectedList = (index) => {
     const day = parseInt(parts[2], 10);
     const date = new Date(year, month, day);
     date.setDate(date.getDate() + amount);
-    const newDateString = `${date.getFullYear()}/${("0" + (date.getMonth() + 1)).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
+    const newDateString = `${date.getFullYear()}/${(
+      "0" +
+      (date.getMonth() + 1)
+    ).slice(-2)}/${("0" + date.getDate()).slice(-2)}`;
     setSelectedDate(newDateString);
-  
-    // dayNumbers 반환
-    return getDayNumbers(newDateString, travelDays);
   };
 
   // 선택된 날짜에 해당하는 관광지 목록 반환
@@ -117,16 +115,14 @@ const removeFromSelectedList = (index) => {
   };
 
   // TravelCalendar 컴포넌트에서 여행 일수와 시작 날짜를 이용하여 dayNumber를 생성하는 함수
-// 선택된 날짜에 해당하는 dayNumbers 반환
-const getDayNumbers = (startDate, travelDays) => {
-  const start = moment(startDate, "YYYY/MM/DD");
-  const today = moment(selectedDate, "YYYY/MM/DD");
-  const dayNumbers = Array.from({ length: travelDays }, (_, index) =>
-    start.clone().add(index, "days").diff(today, 'days')
-  );
-  return dayNumbers;
-};
-
+  const getDayNumbers = (startDate, travelDays) => {
+    const start = moment(startDate, "YYYY/MM/DD");
+    const today = moment(selectedDate, "YYYY/MM/DD");
+    const dayNumbers = Array.from({ length: travelDays }, (_, index) =>
+      start.clone().add(index, "days").diff(today, "days")
+    );
+    return dayNumbers;
+  };
 
   return (
     <div className="map-area">
@@ -136,17 +132,12 @@ const getDayNumbers = (startDate, travelDays) => {
           <Col>
             {/* 로고 및 현위치 아이콘 */}
             <Row className="sub-logo-area">
-              <Col>
-                <img src={logo} alt="" width={250}></img>
-              </Col>
-              <Col>
-                <FontAwesomeIcon icon={faLocationCrosshairs} />{" "}
-                <span className="location-logo">현위치</span>
+              <Col className="mb-3">
+                <img src={logo} alt="" width={160}></img>
               </Col>
             </Row>
             {/* 날짜 선택 */}
             <Row>
-              {" "}
               <TravelCalendar
                 onDateChange={handleDateChange}
                 onTravelDaysChange={handleTravelDaysChange}
@@ -158,13 +149,13 @@ const getDayNumbers = (startDate, travelDays) => {
                 <Form onSubmit={searchByKeyword}>
                   <InputGroup className="mb-3">
                     <Form.Control
-                      ref={inputRef} // ref 설정
+                      ref={inputRef}
                       placeholder="장소를 검색하세요"
                       aria-label="장소를 검색하세요"
                       aria-describedby="basic-addon2"
                       value={keyword}
                       onChange={(event) => setKeyword(event.target.value)}
-                      onKeyPress={handleKeyPress} // Enter 키 입력 시 검색 실행
+                      onKeyPress={handleKeyPress}
                     />
                     <Button
                       variant="outline-secondary"
@@ -178,9 +169,9 @@ const getDayNumbers = (startDate, travelDays) => {
               </Col>
             </Row>
             {/* 관광지 검색 결과 */}
-            <Row style={{ width: "max-content" }}>
+            <Row className="m-3">
               <Stack gap={2} className="scroll-bar">
-                <div className="p-2 ">
+                <div>
                   <TourismList
                     places={searchResults}
                     addToSelectedList={addToSelectedList}
@@ -193,12 +184,23 @@ const getDayNumbers = (startDate, travelDays) => {
       </div>
       {/* 선택된 관광지 목록 */}
       <div className="sectionBorder select-item">
-        <Row>
-          {" "}
-          <button onClick={() => adjustDate(-1)}>-1</button>
-          <span>{selectedDate}</span>
-          <button onClick={() => adjustDate(1)}>+1</button>
-        </Row>
+        <div className="select-cal-area">
+          <button
+            className="calendar-btn"
+            onClick={() => adjustDate(-1)}
+            disabled={selectedDayIndex === 0}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <span className="cal-item">{selectedDate}</span>
+          <button
+            className="calendar-btn"
+            onClick={() => adjustDate(1)}
+            disabled={selectedDayIndex === travelDays - 1}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        </div>
         <Row style={{ width: "max-content" }}>
           <Stack gap={2} className="select-item-scroll-bar">
             <div className="p-2">

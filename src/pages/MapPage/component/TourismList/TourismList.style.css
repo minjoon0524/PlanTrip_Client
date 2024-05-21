@@ -1,41 +1,46 @@
 .tourism-item {
     display: flex;
-    justify-content: space-between; /* 아이템 사이에 간격 조정 */
+    justify-content: space-between; /* 아이템 사이의 간격 조정 */
     align-items: center;
-    padding: 10px; /* 컨텐츠 주변에 여백 추가 */
+    padding: 10px; /* 아이템 내부에 패딩 추가 */
     border-bottom: solid 1px #ebebeb;
-    height: 119.8px;
-   
+    height: 160px;
+    width: 300px;
+    
+    
 }
 
-.tourism-item:hover{
+.tourism-item:hover {
     background-color: #eff7ff;
     border: solid 2px #cdeffd;
 }
 
-.tourism-item > div {
-    margin-right: 10px; /* div 사이에 우측 여백 추가 */
-    
+.tourism-content {
+    flex: 8; /* 컨텐츠에 80%의 공간을 할당 */
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 함 */
+    overflow: hidden; /* 넘치는 컨텐츠를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트에 '...'를 표시하여 잘렸음을 나타냄 */
 }
 
-.tourism-item > div:last-child {
-    margin-right: 0; /* 마지막 div의 여백 제거 */
+.add-button {
+    flex: 2; /* 버튼에 20%의 공간을 할당 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* 폰트 스타일 조정 */
 .tourism-item > div > div {
-    font-family: Arial, sans-serif; /* 적합한 폰트 선택 */
+    font-family: Arial, sans-serif; /* 적절한 폰트 선택 */
 }
 
-.store-name{
+.store-name {
     font-size: 18px;
     font-weight: 700;
     letter-spacing: -1px;
     color: rgb(0, 104, 195);
 }
 
-.tel-text{
+.tel-text {
     color: #009900;
 }
-
-

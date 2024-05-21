@@ -141,11 +141,11 @@ const KakaoMap = ({
           : `/markers/marker${
               marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
                 ? marker.dayNumber[selectedDayIndex] % COLORS.length
-                : 12
+                : 1
             }/marker-${
               marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
                 ? marker.dayNumber[selectedDayIndex] % COLORS.length
-                : 12
+                : 1
             }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
       size: {
         width: 32,

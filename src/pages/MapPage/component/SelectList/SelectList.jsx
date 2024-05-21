@@ -23,7 +23,6 @@ const SelectList = ({ places, removeFromSelectedList }) => {
     <div className="select-area">
       {Object.keys(groupedPlaces).map((date, index) => (
         <div key={index}>
-          <h3>{date}</h3>
           {groupedPlaces[date].map((place, index) => (
             <div key={index} className="select-items">
               <div>
@@ -51,7 +50,7 @@ const SelectList = ({ places, removeFromSelectedList }) => {
                   )}
                 </div>
               </div>
-              <div>
+              <div className="add-button">
                 {/* X 버튼 클릭 시 removeFromSelectedList 함수 호출 */}
                 <FontAwesomeIcon
                   style={{ cursor: "pointer" }}

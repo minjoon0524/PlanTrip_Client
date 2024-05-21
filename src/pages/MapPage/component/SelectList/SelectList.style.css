@@ -1,4 +1,6 @@
 .select-area {
+ 
+ 
 }
 /* 폰트 스타일 조정 */
 .select-items > div > div {
@@ -6,12 +8,16 @@
 }
 
 .select-items {
+  
   display: flex;
   justify-content: space-between; /* 아이템 사이에 간격 조정 */
   align-items: center;
   padding: 10px; /* 컨텐츠 주변에 여백 추가 */
   border-bottom: solid 1px #ebebeb;
-  height: 119.8px;
+  height: 200px;
+  overflow: hidden;  		
+  text-overflow: ellipsis;  	
+  width: 240px;
 }
 
 .select-items:hover {
@@ -32,6 +38,7 @@
   font-weight: 700;
   letter-spacing: -1px;
   color: rgb(0, 104, 195);
+  
 }
 
 .street-num {
@@ -49,4 +56,5 @@
 
   color: rgba(var(--gray40), 1);
 }
+
 

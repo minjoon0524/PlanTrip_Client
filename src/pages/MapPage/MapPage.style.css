@@ -4,16 +4,16 @@ body {
   margin: 0px;
 }
 
-.sectionBorder {
-  /* border-right: 2px solid black; */
+.section-border {
+  border-top: 1px solid #dadce0;
+  margin-bottom: 3px;
 }
 
 .map-area {
   display: flex;
   height: 100vh;
-  width: 50vw;
+  width: 100%; /* 전체 화면 너비를 사용하도록 설정 */
 }
-
 
 .logo-area,
 .select-item,
@@ -23,54 +23,86 @@ body {
 
 .logo-area {
   margin: 0px 0px;
-  padding: 0px 22px;
-  padding-bottom: 104px;
+  padding: 0px 7px;
+  padding-bottom: 40px;
+
   text-align: center;
- 
 }
 
 .select-item {
-    width: max-content;
-    padding-left: 10px;
-    padding-right: 10px;
+  width: 240px; /* 고정된 너비 설정 */
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.logo-area,
-.select-item {
-  flex: 1 1 1 30%; /* 1번째와 2번째 아이템 너비 비율 */
- 
-}
-
-.scroll-bar{
-    height: 400px;
-    overflow-y: scroll;
-}
-
-.select-item-scroll-bar{
-  height: 700px;
+.scroll-bar {
+  height: 400px;
   overflow-y: scroll;
-}
-  
-.map-item {
-  flex: 1 1 40%;
+  width: 100%; /* 부모 요소의 너비에 맞추어 설정 */
 }
 
-.sub-logo-area{
-    display: flex;
-    flex-direction: column;
+.select-item-scroll-bar {
+  height: 530px;
+  overflow-y: scroll;
+  width: 100%; /* 부모 요소의 너비에 맞추어 설정 */
+}
+
+.map-item {
+  width: 700px; /* 고정된 너비 설정 */
+}
+
+.sub-logo-area {
+  display: flex;
+  flex-direction: column;
 }
 
 .logo-area div {
-    text-align: justify;
+  text-align: justify;
 }
 
-.location-logo{
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    cursor: pointer;
+.logo-area img {
+  display: block; /* 이미지를 블록 요소로 변경하여 가로 중앙 정렬 */
+  margin: 0 auto; /* 이미지를 수평 중앙 정렬 */
+}
+
+.location-logo {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  cursor: pointer;
 }
 
 .basic-drop-shadow {
-  box-shadow: 0 0 4px;
+  background: #fff;
+  border: 0;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
+    0 4px 8px 3px rgba(60, 64, 67, 0.15);
+}
+
+/* selectList 배경 */
+.select-cal-area {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* calendar버튼 */
+.calendar-btn {
+  margin: 10px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid black;
+  border-radius: 100%;
+}
+
+.calendar-btn:hover {
+  border: 2px solid #2247a6;
+}
+
+.cal-item {
+  font-size: 18px;
+  padding: 25px;
 }
