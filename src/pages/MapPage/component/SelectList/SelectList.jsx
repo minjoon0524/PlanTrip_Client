@@ -20,7 +20,7 @@ const SelectList = ({ places, removeFromSelectedList }) => {
   const groupedPlaces = groupByDate(places);
 
   return (
-    <div className="select-area">
+    <div>
       {Object.keys(groupedPlaces).map((date, index) => (
         <div key={index}>
           {groupedPlaces[date].map((place, index) => (

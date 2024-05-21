@@ -48,6 +48,7 @@ function TravelCalendar({ onTravelDaysChange, onDateChange }) {
 
       {showCalendar && (
         <Calendar
+        
           onChange={changeDate}
           selectRange={true}
           formatDay={(locale, date) => moment(date).format("DD")}

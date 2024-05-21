@@ -1,7 +1,4 @@
-.select-area {
- 
- 
-}
+
 /* 폰트 스타일 조정 */
 .select-items > div > div {
   font-family: Arial, sans-serif; /* 적합한 폰트 선택 */
@@ -17,7 +14,7 @@
   height: 200px;
   overflow: hidden;  		
   text-overflow: ellipsis;  	
-  width: 240px;
+  width: 310px;
 }
 
 .select-items:hover {

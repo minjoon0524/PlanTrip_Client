@@ -19,8 +19,9 @@ import TravelCalendar from "./component/Calendar/TravelCalendar";
 import SelectList from "./component/SelectList/SelectList";
 import moment from "moment";
 
+
 const MapPage = () => {
-  const [selectedDate, setSelectedDate] = useState("2024/05/07");
+  const [selectedDate, setSelectedDate] = useState("");
   const inputRef = useRef(null);
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -127,12 +128,12 @@ const MapPage = () => {
   return (
     <div className="map-area">
       {/* 로고 및 검색 영역 */}
-      <div className="basic-drop-shadow logo-area">
+      <div className="basic-drop-shadow logo-area-map-page">
         <Row>
           <Col>
             {/* 로고 및 현위치 아이콘 */}
             <Row className="sub-logo-area">
-              <Col className="mb-3">
+              <Col className="mb-3" style={{ marginTop: '50px' }}>
                 <img src={logo} alt="" width={160}></img>
               </Col>
             </Row>
@@ -145,8 +146,12 @@ const MapPage = () => {
             </Row>
             {/* 장소 검색 입력 폼 */}
             <Row>
-              <Col>
-                <Form onSubmit={searchByKeyword}>
+              <Col 
+
+              >
+                <Form onSubmit={searchByKeyword}
+                              
+                >
                   <InputGroup className="mb-3">
                     <Form.Control
                       ref={inputRef}
@@ -168,9 +173,16 @@ const MapPage = () => {
                 </Form>
               </Col>
             </Row>
+
             {/* 관광지 검색 결과 */}
             <Row className="m-3">
-              <Stack gap={2} className="scroll-bar">
+              <Stack 
+              style={{
+                paddingLeft: '0px',
+                paddingRight: '0px'
+            }}
+            
+              gap={2} className={`${searchResults.length === 0 ? '' : 'scroll-bar'}`}>
                 <div>
                   <TourismList
                     places={searchResults}
@@ -183,35 +195,44 @@ const MapPage = () => {
         </Row>
       </div>
       {/* 선택된 관광지 목록 */}
-      <div className="sectionBorder select-item">
-        <div className="select-cal-area">
-          <button
-            className="calendar-btn"
-            onClick={() => adjustDate(-1)}
-            disabled={selectedDayIndex === 0}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </button>
-          <span className="cal-item">{selectedDate}</span>
-          <button
-            className="calendar-btn"
-            onClick={() => adjustDate(1)}
-            disabled={selectedDayIndex === travelDays - 1}
-          >
-            <FontAwesomeIcon icon={faArrowRight} />
-          </button>
-        </div>
-        <Row style={{ width: "max-content" }}>
-          <Stack gap={2} className="select-item-scroll-bar">
-            <div className="p-2">
-              <SelectList
-                places={getSelectedPlacesByDate()}
-                removeFromSelectedList={removeFromSelectedList}
-              />
-            </div>
-          </Stack>
-        </Row>
+      <div 
+      className={`${selectedDate!=='' ? 'select-item section-border' : ''}`}
+     
+      style={{ display: selectedDate==="" ? "none" : "block" }}
+
+
+      >
+  <div className="select-cal-area">
+    <button
+      className="calendar-btn"
+      style={{ display: selectedDate==="" ? "none" : "block" }}
+      onClick={() => adjustDate(-1)}
+      disabled={selectedDayIndex === 0}
+    >
+      <FontAwesomeIcon icon={faArrowLeft} />
+    </button>
+    <span className="cal-item">{selectedDate}</span>
+    <button
+      className="calendar-btn"
+      style={{ display: selectedDate==="" ? "none" : "block" }}
+      onClick={() => adjustDate(1)}
+      disabled={selectedDayIndex === travelDays - 1}
+      
+    >
+      <FontAwesomeIcon icon={faArrowRight} />
+    </button>
+  </div>
+  <Row style={{ width: "max-content" }}>
+    <Stack gap={2} className={`${getSelectedPlacesByDate().length > 0? 'select-item-scroll-bar' : ''}`}>
+      <div className="p-2">
+        <SelectList
+          places={getSelectedPlacesByDate()}
+          removeFromSelectedList={removeFromSelectedList}
+        />
       </div>
+    </Stack>
+  </Row>
+</div>
       {/* 지도 영역 */}
       <div className="sectionBorder map-item">
         <KakaoMap
