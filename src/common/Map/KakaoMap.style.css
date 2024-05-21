@@ -2,3 +2,50 @@
     height: 100vh;
     width: 100vh;
 }
+.wrap {
+    position: absolute;
+    left: 50%; /* 마커의 가운데에 위치 */
+    bottom: 50px; /* 필요에 따라 조절 */
+    transform: translateX(-50%); /* 왼쪽으로 이동하여 가운데 맞춤 */
+    width: auto; /* 내용에 따라 자동으로 너비 조정 */
+    max-width: 200px; /* 최대 너비 설정 */
+    padding: 15px; /* 내용과의 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+  
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+}
+
+.info {
+    font-size: 15px;
+    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+}
+
+.info-content {
+    font-weight: bold;
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #888;
+    width: 10px;
+    height: 10px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png') no-repeat center;
+}
+
+.close:hover {
+    cursor: pointer;
+}
+
+.info:after {
+    content: '';
+    position: absolute;
+    bottom: -12px; /* 오버레이 아래로 위치 */
+    left: calc(50% - 11px); /* 가운데 정렬 */
+    width: 30px;
+    height: 12px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png') no-repeat center;
+}
+

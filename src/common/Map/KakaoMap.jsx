@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
-import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
+import { Map, MapMarker, Polyline, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { COLORS } from "./../../datas/map-constants";
 
 const { kakao } = window;
@@ -18,6 +18,7 @@ const KakaoMap = ({
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const [defaultPosition, setDefaultPosition] = useState({
     lat: 37.566826, // 서울의 기본 위도
     lng: 126.9786567, // 서울의 기본 경도
@@ -129,36 +130,56 @@ const KakaoMap = ({
         style={{ width: "100%", height: "100%" }}
         onCreate={setMap}
       >
-       {markers.map((marker, index) => (
-  <MapMarker
-    key={`marker-${index}`}
-    position={marker.position}
-    onClick={() => setInfo(marker)}
-    image={{
-      src:
-        index === 0
-          ? "/markers/marker.svg" // 현재 위치 마커인 경우 marker.svg 사용
-          : `/markers/marker${
-              marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
-                ? marker.dayNumber[selectedDayIndex] % COLORS.length
-                : 1
-            }/marker-${
-              marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
-                ? marker.dayNumber[selectedDayIndex] % COLORS.length
-                : 1
-            }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
-      size: {
-        width: 32,
-        height: 32,
-      },
-    }}
-  >
-    {info && info.content === marker.content && (
-      <div style={{ color: "#000" }}>{marker.content}</div>
-    )}
-  </MapMarker>
-))}
-
+        {markers.map((marker, index) => (
+          <React.Fragment key={`marker-${index}`}>
+            <MapMarker
+              position={marker.position}
+              onClick={() => {
+                setInfo(marker);
+                setIsOpen(true);
+              }}
+              image={{
+                src:
+                  index === 0
+                    ? "/markers/marker.svg" // 현재 위치 마커인 경우 marker.svg 사용
+                    : `/markers/marker${
+                        marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
+                          ? marker.dayNumber[selectedDayIndex] % COLORS.length
+                          : 1
+                      }/marker-${
+                        marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
+                          ? marker.dayNumber[selectedDayIndex] % COLORS.length
+                          : 1
+                      }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
+                size: {
+                  width: 32,
+                  height: 32,
+                },
+              }}
+            />
+            {isOpen && info && info.content === marker.content && (
+              <CustomOverlayMap position={marker.position}>
+                <div className="wrap">
+                  <div className="info">
+                    <div className="title">
+                    
+                      <div
+                        className="close"
+                        onClick={() => setIsOpen(false)}
+                        title="닫기"
+                      ></div>
+                    </div>
+                    <div className="body">
+                      <div className="desc">
+                        <div className="ellipsis">{marker.content}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CustomOverlayMap>
+            )}
+          </React.Fragment>
+        ))}
 
         {/* 선택된 장소들 간의 선 표시 */}
         <Polyline
