@@ -92,6 +92,7 @@ const KakaoMap = ({
     const ps = new kakao.maps.services.Places();
 
     ps.keywordSearch(keyword, (data, status) => {
+      console.log(data)
       if (status === kakao.maps.services.Status.OK) {
         onSearchResults(data);
 

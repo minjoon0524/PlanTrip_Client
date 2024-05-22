@@ -78,14 +78,15 @@ body {
   flex-direction: column;
 }
 
-.logo-area-map-page div {
-  text-align: justify;
 
+.travel-calendar-container {
+  text-align: center; /* 기본값으로 설정하거나 다른 스타일을 적용합니다 */
 }
 
 .logo-area-map-page img {
   display: block; /* 이미지를 블록 요소로 변경하여 가로 중앙 정렬 */
   margin: 0 auto; /* 이미지를 수평 중앙 정렬 */
+  cursor: pointer;
 }
 
 .location-logo {

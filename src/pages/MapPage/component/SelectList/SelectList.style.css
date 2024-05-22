@@ -1,19 +1,29 @@
-
-/* 폰트 스타일 조정 */
-.select-items > div > div {
-  font-family: Arial, sans-serif; /* 적합한 폰트 선택 */
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }
 
+.slide-out-right {
+  animation: slideOutRight 0.5s forwards;
+}
+
+
+/* Other existing styles... */
 .select-items {
-  
   display: flex;
-  justify-content: space-between; /* 아이템 사이에 간격 조정 */
+  justify-content: space-between;
   align-items: center;
-  padding: 10px; /* 컨텐츠 주변에 여백 추가 */
+  padding: 10px;
   border-bottom: solid 1px #ebebeb;
   height: 200px;
-  overflow: hidden;  		
-  text-overflow: ellipsis;  	
+  overflow: hidden;
+  text-overflow: ellipsis;
   width: 310px;
 }
 
@@ -23,11 +33,11 @@
 }
 
 .select-items > div {
-  margin-right: 10px; /* div 사이에 우측 여백 추가 */
+  margin-right: 10px;
 }
 
 .select-items > div:last-child {
-  margin-right: 0; /* 마지막 div의 여백 제거 */
+  margin-right: 0;
 }
 
 .store-name {
@@ -35,7 +45,6 @@
   font-weight: 700;
   letter-spacing: -1px;
   color: rgb(0, 104, 195);
-  
 }
 
 .street-num {
@@ -44,14 +53,41 @@
   margin: 0.5px 4px 0 0;
   padding: 0 4px;
   border: 1px solid;
-
   border-color: rgba(var(--gray70), 1);
   border-radius: 2px;
   box-sizing: border-box;
   font-size: 0.69rem;
   font-weight: 600;
-
   color: rgba(var(--gray40), 1);
 }
 
-
+.bin-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: rgb(255, 95, 95);
+  cursor: pointer;
+  border: 3px solid rgb(255, 201, 201);
+  transition-duration: 0.3s;
+}
+.bin-bottom {
+  width: 8px;
+}
+.bin-top {
+  width: 17px;
+  transform-origin: right;
+  transition-duration: 0.3s;
+}
+.bin-button:hover .bin-top {
+  transform: rotate(45deg);
+}
+.bin-button:hover {
+  background-color: rgb(255, 0, 0);
+}
+.bin-button:active {
+  transform: scale(0.9);
+}

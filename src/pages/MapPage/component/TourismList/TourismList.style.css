@@ -1,48 +1,73 @@
 .tourism-item {
-    display: flex;
-    justify-content: space-between; /* 아이템 사이의 간격 조정 */
-    align-items: center;
-    padding: 10px; /* 아이템 내부에 패딩 추가 */
-    border-bottom: solid 1px #ebebeb;
-    height: 160px;
-
-    width: 300px; 
-    box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
-    
-    
+  display: flex;
+  justify-content: space-between; /* 아이템 사이의 간격 조정 */
+  align-items: center;
+  padding: 10px; /* 아이템 내부에 패딩 추가 */
+  border-bottom: solid 1px #ebebeb;
+  height: 160px;
+  width: 300px;
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .tourism-item:hover {
-    background-color: #eff7ff;
-    border: solid 2px #cdeffd;
+  background-color: #eff7ff;
+  border: solid 2px #cdeffd;
+}
+
+.tourism-item.slide-out {
+  transform: translateX(100%);
+  opacity: 0;
 }
 
 .tourism-content {
-    flex: 9; /* 컨텐츠에 80%의 공간을 할당 */
-    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 함 */
-    overflow: hidden; /* 넘치는 컨텐츠를 숨김 */
-    text-overflow: ellipsis; /* 넘치는 텍스트에 '...'를 표시하여 잘렸음을 나타냄 */
+  flex: 9; /* 컨텐츠에 80%의 공간을 할당 */
+  white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 함 */
+  overflow: hidden; /* 넘치는 컨텐츠를 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 '...'를 표시하여 잘렸음을 나타냄 */
 }
 
 .add-button {
-    flex: 1; /* 버튼에 20%의 공간을 할당 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1; /* 버튼에 20%의 공간을 할당 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 폰트 스타일 조정 */
 .tourism-item > div > div {
-    font-family: Arial, sans-serif; /* 적절한 폰트 선택 */
+  font-family: Arial, sans-serif; /* 적절한 폰트 선택 */
 }
 
 .store-name {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: rgb(0, 104, 195);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: rgb(0, 104, 195);
+  text-decoration-line: none;
 }
 
 .tel-text {
-    color: #009900;
+  color: #009900;
+}
+
+.add-trip-btn {
+  border: 2px solid #D0E2ED;
+  background-color: #D0E2ED;
+  border-radius: 100%;
+  padding: 0.8em 1.2em 0.8em 1em;
+  transition: all ease-in-out 0.2s;
+  font-size: 1px;
+}
+ 
+.add-trip-btn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 600;
+}
+ 
+.add-trip-btn:hover {
+  background-color: #9FD1E5;
 }
