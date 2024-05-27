@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+// SelectTripPage.js
+import React, { useState, useEffect } from "react";
 import "./SelectTripPage.style.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import TravelCard from "../../common/TravelCard/TravelCard";
-const SelectTripPage = () => {
-  // useState 훅을 사용하여 검색어에 대한 상태를 생성합니다.
-  const [searchQuery, setSearchQuery] = useState("");
+import { useSearchKeywordQuery } from "../../hooks/useSearchKeyword";
 
-  // 사용자 입력이 변경될 때 호출될 함수입니다.
+const SelectTripPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data, isLoading, isError, error } = useSearchKeywordQuery();
+  console.log(data)
+
   const handleInputChange = (event) => {
-    // 입력된 값으로 searchQuery 상태를 업데이트합니다.
     setSearchQuery(event.target.value);
   };
 
-  
+  useEffect(() => {
+    // 검색 쿼리에 따라 API 호출 등의 작업 수행
+    // useSearchKeywordQuery 훅을 사용하는 대신 직접 API 호출 등을 수행할 수 있음
+  }, [searchQuery]); // 검색 쿼리가 변경될 때마다 호출
 
   return (
     <div>
@@ -26,8 +31,8 @@ const SelectTripPage = () => {
             type="search"
             required=""
             placeholder="여행지를 검색해보세요."
-            value={searchQuery} // value를 searchQuery 상태로 설정합니다.
-            onChange={handleInputChange} // input 값이 변경될 때 handleInputChange 함수를 호출합니다.
+            value={searchQuery}
+            onChange={handleInputChange}
           ></input>
           <button className="search-btn">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -35,36 +40,26 @@ const SelectTripPage = () => {
         </div>
       </Container>
       <Container>
-  {/* 여행지 추천 영역 */}
-  <div className="recommendation-area">
-    <h4 className="fw-bolder mb-3 " style={{ fontWeight: 700 }}>국내 여행지 추천</h4>
-    <div className="travel-cards-container">
-      <Row>
-        {/* 각 TravelCard를 별도의 Col 컴포넌트로 감싸줍니다. */}
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        <Col lg={3} sm={12}><TravelCard /></Col>
-        {/* 필요한 만큼 여행 카드 추가 */}
-      </Row>
+        <div className="recommendation-area">
+          <h4 className="fw-bolder mb-3 " style={{ fontWeight: 700 }}>국내 여행지 추천</h4>
+          <div className="travel-cards-container">
+            <Row>
+              {isLoading ? (
+                <div>Loading...</div>
+              ) : isError ? (
+                <div>Error: {error.message}</div>
+              ) : (
+                data.map((item) => (
+                  <Col key={item.id} xs={12} sm={6} md={3}>
+                    <TravelCard item={item} />
+                  </Col>
+                ))
+              )}
+            </Row>
+          </div>
+        </div>
+      </Container>
     </div>
-  </div>
-</Container>
-
-    </div>
-    
   );
 };
 

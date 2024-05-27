@@ -5,19 +5,14 @@
   padding: 10px; /* 아이템 내부에 패딩 추가 */
   border-bottom: solid 1px #ebebeb;
   height: 160px;
+
   width: 300px;
   box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .tourism-item:hover {
   background-color: #eff7ff;
   border: solid 2px #cdeffd;
-}
-
-.tourism-item.slide-out {
-  transform: translateX(100%);
-  opacity: 0;
 }
 
 .tourism-content {
@@ -58,16 +53,16 @@
   padding: 0.8em 1.2em 0.8em 1em;
   transition: all ease-in-out 0.2s;
   font-size: 1px;
-}
+ }
  
-.add-trip-btn span {
+ .add-trip-btn span {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
   font-weight: 600;
-}
+ }
  
-.add-trip-btn:hover {
+ .add-trip-btn:hover {
   background-color: #9FD1E5;
-}
+ }
