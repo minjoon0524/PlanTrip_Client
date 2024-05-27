@@ -45,7 +45,13 @@ const SelectTripPage = () => {
           <div className="travel-cards-container">
             <Row>
               {isLoading ? (
-                <div>Loading...</div>
+                <section class="dots-container">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </section>
               ) : isError ? (
                 <div>Error: {error.message}</div>
               ) : (

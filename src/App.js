@@ -8,6 +8,7 @@ import JoinPage from "./pages/JoinPage/JoinPage";
 import PlanPage from "./pages/PlanPage/PlanPage";
 import SelectTripPage from "./pages/SelectTripPage/SelectTripPage";
 import MapPage from "./pages/MapPage/MapPage";
+import TravelDetailPage from "./pages/TravelDetailPage/TravelDetailPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/plan" element={<PlanPage />} />
           <Route path="/selectTrip" element={<SelectTripPage />} />
+          <Route path="/detail" element={<TravelDetailPage />} />
        
         </Route>
         <Route path="/trip" element={<MapPage />} />
