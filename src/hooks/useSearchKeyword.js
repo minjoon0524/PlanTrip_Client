@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 const SERVICE_KEY = process.env.REACT_APP_API_KEY;
 
 const fetchSearchKeyword = ({ searchQuery, page, selectByArea }) => {
-  console.log("SearchQuery Test ...", searchQuery);
   const keyword = searchQuery ? decodeURIComponent(searchQuery) : (selectByArea || "인천");
   console.log(page);
   return api.get(`/searchKeyword1`, {

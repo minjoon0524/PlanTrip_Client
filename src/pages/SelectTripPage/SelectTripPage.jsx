@@ -23,7 +23,6 @@ const SelectTripPage = () => {
     "경주",
   ];
   const [selectByArea, setSelectByArea] = useState("");
-  console.log("selectByArea Test", selectByArea);
   const { data, isLoading, isError, error } = useSearchKeywordQuery({
     searchQuery,
     page,
@@ -38,7 +37,6 @@ const SelectTripPage = () => {
 
   const handleSearch = () => {
     setSearchQuery(encodeURI(tempSearchQuery));
-    console.log("tempSearchQuery 테스트", tempSearchQuery);
   };
 
   const handlePageClick = ({ selected }) => {
@@ -85,7 +83,12 @@ const SelectTripPage = () => {
             <SelectAreaButton areas={areas} setSelectByArea={setSelectByArea} />
           </div>
           <h4 className="fw-bolder mb-3" style={{ fontWeight: 700 }}>
-            {searchQuery ? `${decodeURI(searchQuery)} ` : selectByArea ? `${selectByArea} ` : ""}여행지 추천
+            {searchQuery
+              ? `${decodeURI(searchQuery)} `
+              : selectByArea
+              ? `${selectByArea} `
+              : ""}
+            여행지 추천
           </h4>
           <div className="travel-cards-container">
             <Row>
