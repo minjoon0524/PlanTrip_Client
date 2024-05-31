@@ -6,7 +6,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 const TravelDetailPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   const { data, isLoading, isError, error } = useCommonDetailQuery({ id });
   console.log(data);
 
@@ -14,12 +14,22 @@ const TravelDetailPage = () => {
   const handleBack = () => {
     navigate(-1);
   };
-// 일정만들기 함수
-  const makeTrip=()=>{
-    navigate("/trip")
-  }
+
+  // 일정만들기 함수
+  const makeTrip = () => {
+    navigate("/trip");
+  };
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <section className="dots-container">
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
+      </section>
+    );
   }
 
   if (isError) {
