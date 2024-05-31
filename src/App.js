@@ -9,6 +9,7 @@ import PlanPage from "./pages/PlanPage/PlanPage";
 import SelectTripPage from "./pages/SelectTripPage/SelectTripPage";
 import MapPage from "./pages/MapPage/MapPage";
 import TravelDetailPage from "./pages/TravelDetailPage/TravelDetailPage";
+import TripListPage from "./pages/TripListPage/TripListPage";
 
 function App() {
   return (
@@ -20,10 +21,11 @@ function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/plan" element={<PlanPage />} />
           <Route path="/selectTrip" element={<SelectTripPage />} />
-          <Route path="/detail/:id" element={<TravelDetailPage />} />
-       
+        <Route path="/trip/list" element={<TripListPage />} />
+        <Route path="/detail/:id" element={<TravelDetailPage />} />
         </Route>
         <Route path="/trip" element={<MapPage />} />
+        
       </Routes>
     </div>
   );

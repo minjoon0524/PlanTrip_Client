@@ -1,0 +1,53 @@
+/* MyTravelCard.css */
+
+.plan-item {
+    width: 285px;
+    height: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+  
+  .plan-item .city-img {
+    height: 260px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .plan-item .info-wrap {
+    padding: 20px;
+  }
+  
+  .plan-item .trip-name {
+    font-size: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  
+  .likes {
+    font-size: 18px;
+    color: #505050;
+  }
+  
+  .likes .fa-heart {
+    color: rgba(255, 63, 63, 0.809);
+    line-height: 29px;
+    font-size: 16px;
+  }
+  
+  .date,
+  .days {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: gray;
+    margin-bottom: 5px;
+  }
+  
+  .member-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6e6e6e;
+    cursor: pointer;
+  }
+  
