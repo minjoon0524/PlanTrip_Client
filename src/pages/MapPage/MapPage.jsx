@@ -20,6 +20,9 @@ import SelectList from "./component/SelectList/SelectList";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
+
+import TripModal from "./../../modal/TripModal";
+
 const MapPage = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const inputRef = useRef(null);
@@ -29,6 +32,29 @@ const MapPage = () => {
   const [travelDays, setTravelDays] = useState(0);
   const [searchTimer, setSearchTimer] = useState(null);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+    // 모달 가시성을 제어하는 상태
+    const [show, setShow] = useState(false);
+    const [title, setTitle] = useState('');
+    const [file, setFile] = useState(null);
+
+    // 모달을 보여주는 함수
+    const handleShow = () => setShow(true);
+    
+    // 모달을 숨기는 함수
+    const handleClose = () => setShow(false);
+
+      // 제목 입력 변화 핸들러
+  const handleTitleChange = (e) => setTitle(e.target.value);
+
+  // 파일 업로드 변화 핸들러
+  const handleFileChange = (e) => setFile(e.target.files[0]);
+
+  const handleSubmit = () => {
+    // 제출 처리 임시로직
+    console.log('Title:', title);
+    console.log('File:', file);
+    handleClose();
+  };
   const navigate = useNavigate();
 
   //Main페이지로 이동하기 위한 함수
@@ -241,7 +267,7 @@ const MapPage = () => {
             <Stack>
             {selectedPlaces.length > 0 && (
             <div className="make-trip-area">
-              <button className="make-trip-btn">
+              <button className="make-trip-btn" onClick={handleShow}>
                 <span>
                   Submit
                   <svg
@@ -299,6 +325,7 @@ const MapPage = () => {
             </div>
           )}
             </Stack>
+            <TripModal show={show} handleClose={handleClose} />
         
         </Row>
       </div>

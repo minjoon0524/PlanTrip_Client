@@ -28,6 +28,7 @@ const SelectTripPage = () => {
     page,
     selectByArea,
   });
+  
   console.log(data);
 
   const handleInputChange = (event) => {
