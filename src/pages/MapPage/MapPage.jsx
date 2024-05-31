@@ -238,8 +238,8 @@ const MapPage = () => {
               />
             </div>
           </Stack>
-
-          {selectedPlaces.length > 0 && (
+            <Stack>
+            {selectedPlaces.length > 0 && (
             <div className="make-trip-area">
               <button className="make-trip-btn">
                 <span>
@@ -298,6 +298,8 @@ const MapPage = () => {
               </button>
             </div>
           )}
+            </Stack>
+        
         </Row>
       </div>
       {/* 지도 영역 */}

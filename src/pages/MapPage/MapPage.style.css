@@ -28,7 +28,6 @@ body {
   padding-bottom: 40px;
   padding-left: 50px;
   padding-right: 50px;
-
 }
 
 .select-item {
@@ -37,37 +36,39 @@ body {
   padding-right: 10px;
 }
 
-
 .scroll-bar {
   height: 400px; /* 부모 요소의 높이에 맞춰 설정 */
   overflow-y: scroll;
   width: 100%; /* 부모 요소의 너비에 맞추어 설정 */
 }
 
- .select-item-scroll-bar {
+.select-item-scroll-bar {
   height: 550px; /* 부모 요소의 높이에 맞춰 설정 */
   overflow-y: scroll;
   width: 100%; /* 부모 요소의 너비에 맞추어 설정 */
 }
 
 /* 추가적인 스크롤 바 스타일링 (선택사항) */
-.scroll-bar::-webkit-scrollbar, .select-item-scroll-bar::-webkit-scrollbar {
+.scroll-bar::-webkit-scrollbar,
+.select-item-scroll-bar::-webkit-scrollbar {
   width: 8px; /* 스크롤 바의 너비 */
 }
 
-.scroll-bar::-webkit-scrollbar-track, .select-item-scroll-bar::-webkit-scrollbar-track {
+.scroll-bar::-webkit-scrollbar-track,
+.select-item-scroll-bar::-webkit-scrollbar-track {
   background: #f1f1f1; /* 스크롤 바 트랙의 배경색 */
 }
 
-.scroll-bar::-webkit-scrollbar-thumb, .select-item-scroll-bar::-webkit-scrollbar-thumb {
+.scroll-bar::-webkit-scrollbar-thumb,
+.select-item-scroll-bar::-webkit-scrollbar-thumb {
   background: #888; /* 스크롤 바의 색상 */
   border-radius: 4px; /* 모서리를 둥글게 설정 */
 }
 
-.scroll-bar::-webkit-scrollbar-thumb:hover, .select-item-scroll-bar::-webkit-scrollbar-thumb:hover {
+.scroll-bar::-webkit-scrollbar-thumb:hover,
+.select-item-scroll-bar::-webkit-scrollbar-thumb:hover {
   background: #555; /* 스크롤 바에 마우스를 올렸을 때 색상 */
 }
-
 
 .map-item {
   width: 700px; /* 고정된 너비 설정 */
@@ -77,7 +78,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 
 .travel-calendar-container {
   text-align: center; /* 기본값으로 설정하거나 다른 스타일을 적용합니다 */
@@ -160,7 +160,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
 }
 
 button svg {
@@ -168,7 +168,8 @@ button svg {
   height: 1.25rem;
 }
 
-.make-trip-btn span:nth-child(2),.make-trip-btn span:nth-child(3) {
+.make-trip-btn span:nth-child(2),
+.make-trip-btn span:nth-child(3) {
   position: absolute;
   top: 40px;
   color: #fff;
@@ -186,16 +187,19 @@ button svg {
   box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
 }
 
-.make-trip-btn:hover span:nth-child(2), .make-trip-btn:focus span:nth-child(3) {
+.make-trip-btn:hover span:nth-child(2),
+.make-trip-btn:focus span:nth-child(3) {
   top: 0;
 }
 
 .make-trip-btn:focus {
   box-shadow: none;
 }
-.make-trip-area{width: 330px;
+.make-trip-area {
+  width: 330px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 18px;
-  margin-bottom: 18px;}
+  margin-bottom: 18px;
+}
