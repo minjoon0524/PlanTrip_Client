@@ -2,13 +2,13 @@ import React from "react";
 import "./TravelCard.style.css";
 import Card from "react-bootstrap/Card";
 import { Alert } from "react-bootstrap";
-import TravelDetailPage from "../../pages/TravelDetailPage/TravelDetailPage";
 import { useNavigate } from "react-router-dom";
 
 const TravelCard = ({ trip }) => {
   const navigate = useNavigate();
   const goToDetail = () => {
-    navigate("/detail");
+    navigate(`/detail/${trip.contentid}`);
+    console.log("컨텐츠 아이디 테스트",trip.contentid)
   };
 
   if (!trip) {
@@ -19,16 +19,16 @@ const TravelCard = ({ trip }) => {
     <Card
       className="card-area hover:scale-105"
       style={{ width: "18rem", height: "18rem", marginBottom: "1rem" }}
+      onClick={goToDetail} // onClick을 Card 컴포넌트에 이동
     >
       <Card.Img
         variant="top"
-        onClick={goToDetail}
         src={
           trip.firstimage ||
           trip.firstimage2 ||
           "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
         }
-        style={{ width: "100%", height: "15rem" }} // 너비는 100%로 설정하고 높이를 원하는 크기로 조정합니다.
+        style={{ width: "100%", height: "15rem" }} // 너비는 100%, 높이는 원하는 크기로 조정
       />
 
       <Card.Body>

@@ -20,7 +20,7 @@ function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/plan" element={<PlanPage />} />
           <Route path="/selectTrip" element={<SelectTripPage />} />
-          <Route path="/detail" element={<TravelDetailPage />} />
+          <Route path="/detail/:id" element={<TravelDetailPage />} />
        
         </Route>
         <Route path="/trip" element={<MapPage />} />
