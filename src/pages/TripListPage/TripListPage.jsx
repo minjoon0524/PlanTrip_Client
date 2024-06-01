@@ -1,10 +1,9 @@
 import React from "react";
 import "./TripListPage.style.css";
-import { useNavigate } from "react-router-dom";
 import MyTravelCard from "../../common/TravelCard copy/MyTravelCard";
 
 const TripListPage = () => {
-  const navigate = useNavigate();
+
 
   const trip = {
     id: 1,
@@ -15,6 +14,7 @@ const TripListPage = () => {
     userId: 1,
     userName: '작성자 이름',
   };
+
   return (
     <div id="plan-list">
       <div className="title">나만의 여행 일정</div>
