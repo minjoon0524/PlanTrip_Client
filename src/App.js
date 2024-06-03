@@ -10,14 +10,17 @@ import SelectTripPage from "./pages/SelectTripPage/SelectTripPage";
 import MapPage from "./pages/MapPage/MapPage";
 import TravelDetailPage from "./pages/TravelDetailPage/TravelDetailPage";
 import TripListPage from "./pages/TripListPage/TripListPage";
+import { useState } from "react";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+
   return (
     <div>
       <Routes>
-        <Route path="/" element={<AppLayout />}>
+        <Route path="/" element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}>
           <Route index element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage  setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/join" element={<JoinPage />} />
           <Route path="/plan" element={<PlanPage />} />
           <Route path="/selectTrip" element={<SelectTripPage />} />

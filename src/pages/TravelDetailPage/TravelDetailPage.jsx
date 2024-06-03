@@ -61,8 +61,12 @@ const TravelDetailPage = () => {
           <div className="detail-addr">{data.addr1}</div>
           <div className="detail-overview">{data.overview}</div>
           <div className="mt-3">
-            <button className="detail-button" onClick={handleBack}>뒤로가기</button>
-            <button className="detail-button" onClick={makeTrip}>일정만들기</button>
+            <button className="detail-button" onClick={handleBack}>
+              뒤로가기
+            </button>
+            <button className="detail-button" onClick={makeTrip}>
+              일정만들기
+            </button>
           </div>
         </Row>
       </Container>
