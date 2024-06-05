@@ -1,10 +1,11 @@
+// src/LoginPage.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../img/logo.png";
 import Form from "react-bootstrap/Form";
-import "./LoginPage.style.css";
 import { Container } from "react-bootstrap";
 import axios from "axios";
+import "./LoginPage.style.css";
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = (event) => {
+  const loginUser = async (event) => {
     event.preventDefault();
 
     if (!email || !password) {
@@ -20,32 +21,28 @@ const LoginPage = ({ setIsLoggedIn }) => {
       return;
     }
 
-    axios
-      .post(
+    try {
+      const response = await axios.post(
         "http://localhost:80/member/login",
         { email, password },
         { withCredentials: true }
-      )
-      .then((response) => {
-        console.log(response);
-        setIsLoggedIn(true);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrorMessage("로그인 실패. 다시 시도해주세요.");
-      });
+      );
+      console.log(response.data);
+      setIsLoggedIn(true);
+      navigate("/");
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMessage("로그인 실패. 다시 시도해주세요.");
+    }
   };
 
   return (
     <div className="mt-3">
       <Container className="logo-area margin-main">
-        <img src={logo} alt="" width={250}></img>
+        <img src={logo} alt="Logo" width={250} />
         <div>
           <h2>
-            <strong color="sky" className="first-sen">
-              방문해주셔서 감사합니다
-            </strong>
+            <strong className="first-sen">방문해주셔서 감사합니다</strong>
           </h2>
           <h6 className="fw-bolder mb-3">로그인을 통해, 여행을 계획해보세요</h6>
         </div>

@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { faSuitcaseRolling } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faSuitcaseRolling, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
-const AppLayout = ({isLoggedIn,setIsLoggedIn}) => {
+const AppLayout = ({ isLoggedIn, setIsLoggedIn }) => {
+  const [userName, setUserName] = useState(""); // 사용자 이름 상태 추가
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:80/member/checkLoginStatus', { withCredentials: true })
-      .then(response => {
-        console.log("로그인 상태 체크 응답: ", response.data);
-        if (response.data.isLoggedIn !== undefined || response.data.isLoggedIn === false ) {
-          setIsLoggedIn(response.data.isLoggedIn);
-        }
-      })
-      .catch(error => {
-        console.error('Error checking login status:', error);
-      });
-  }, []);
-  
+    // 컴포넌트가 마운트될 때 사용자 정보를 가져옴
+    if (isLoggedIn) {
+      axios
+        .get("http://localhost:80/member/status", { withCredentials: true })
+        .then((response) => {
+          console.log(response)
+          setUserName(response.data); // 서버로부터 받은 사용자 정보 설정
+        })
+        .catch((error) => {
+          console.error("Error fetching user info:", error);
+        });
+    }
+  }, [isLoggedIn]); // 로그인 상태가 변경될 때마다 실행
 
   const handleLogout = () => {
-    axios.get('http://localhost:80/member/logout', { withCredentials: true })
-      .then(response => {
+    axios
+      .post("http://localhost:80/member/logout", null, { withCredentials: true })
+      .then((response) => {
+        console.log("로그아웃 테스트: ", response);
         setIsLoggedIn(false);
+        setUserName(""); // 로그아웃 시 사용자 이름 초기화
         navigate("/");
       })
-      .catch(error => {
-        console.error('Error during logout:', error);
+      .catch((error) => {
+        console.error("Error during logout:", error);
       });
   };
 
@@ -61,6 +66,7 @@ const AppLayout = ({isLoggedIn,setIsLoggedIn}) => {
               {isLoggedIn ? (
                 <>
                   <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                  <Nav.Link><FontAwesomeIcon icon={faCircleUser} />{" "}{userName}</Nav.Link> {/* 사용자 이름 표시 */}
                 </>
               ) : (
                 <>

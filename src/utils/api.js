@@ -7,6 +7,9 @@ const api = axios.create({
     }
   });
 
+//로그인
+export const login=(username,password)=>api.post(`/member/login?username=${username}&password=${password}}`)  
+
 axios.interceptors.request.use(function (config) {
     // 요청이 전달되기 전에 작업 수행
     return config;
