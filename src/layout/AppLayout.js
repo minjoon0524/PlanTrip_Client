@@ -12,20 +12,20 @@ const AppLayout = ({ isLoggedIn, setIsLoggedIn }) => {
   const [userName, setUserName] = useState(""); // 사용자 이름 상태 추가
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 사용자 정보를 가져옴
-    if (isLoggedIn) {
-      axios
-        .get("http://localhost:80/member/status", { withCredentials: true })
-        .then((response) => {
-          console.log(response)
-          setUserName(response.data); // 서버로부터 받은 사용자 정보 설정
-        })
-        .catch((error) => {
-          console.error("Error fetching user info:", error);
-        });
-    }
-  }, [isLoggedIn]); // 로그인 상태가 변경될 때마다 실행
+  // useEffect(() => {
+  //   // 컴포넌트가 마운트될 때 사용자 정보를 가져옴
+  //   if (isLoggedIn) {
+  //     axios
+  //       .get("http://localhost:80/member/status", { withCredentials: true })
+  //       .then((response) => {
+  //         console.log(response)
+  //         setUserName(response.data); // 서버로부터 받은 사용자 정보 설정
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching user info:", error);
+  //       });
+  //   }
+  // }, [isLoggedIn]); // 로그인 상태가 변경될 때마다 실행
 
   const handleLogout = () => {
     axios

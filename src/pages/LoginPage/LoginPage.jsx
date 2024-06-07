@@ -1,5 +1,4 @@
-// src/LoginPage.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../img/logo.png";
 import Form from "react-bootstrap/Form";
@@ -11,9 +10,25 @@ const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [csrfToken, setCsrfToken] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = async (event) => {
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 CSRF 토큰을 가져옵니다.
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await axios.get("http://localhost:80/csrf-token");
+        setCsrfToken(response.data.token);
+      } catch (error) {
+        console.error("CSRF 토큰을 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
+
+  const loginUser = (event) => {
     event.preventDefault();
 
     if (!email || !password) {
@@ -21,19 +36,38 @@ const LoginPage = ({ setIsLoggedIn }) => {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:80/member/login",
-        { email, password },
-        { withCredentials: true }
-      );
-      console.log(response.data);
+    setIsLoading(true);
+    setErrorMessage(""); // 이전 에러 메시지 초기화
+
+    const data = {
+      email: email,
+      password: password
+    };
+
+    axios.post(
+      "http://localhost:80/member/login",  // 로그인 처리 URL
+      data, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "X-CSRF-TOKEN": csrfToken // CSRF 토큰 추가
+        },
+        withCredentials: true // 쿠키 포함
+      }
+    )
+    .then(response => {
       setIsLoggedIn(true);
       navigate("/");
-    } catch (error) {
-      console.error("Error:", error);
-      setErrorMessage("로그인 실패. 다시 시도해주세요.");
-    }
+      return response;
+    })
+    .catch(error => {
+      console.error("Error:", error.response ? error.response.data : error.message);
+      setErrorMessage(error.response?.data || "로그인 실패. 다시 시도해주세요.");
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
   };
 
   return (
@@ -55,6 +89,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              disabled={isLoading}
             />
           </Form.Group>
 
@@ -64,18 +99,20 @@ const LoginPage = ({ setIsLoggedIn }) => {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              disabled={isLoading}
             />
           </Form.Group>
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button type="submit" className="login-button mt-3">
-            로그인
+          <button type="submit" className="login-button mt-3" disabled={isLoading}>
+            {isLoading ? "로그인 중..." : "로그인"}
           </button>
           <button
             type="button"
             className="join-button mt-3"
             onClick={() => navigate("/join")}
+            disabled={isLoading}
           >
             회원가입
           </button>
