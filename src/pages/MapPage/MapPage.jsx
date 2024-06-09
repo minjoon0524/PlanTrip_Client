@@ -54,6 +54,7 @@ const MapPage = () => {
     // 제출 처리 임시로직
     console.log("Title:", title);
     console.log("File:", file);
+    navigate('/trip/list')
     setShowLogoAndSearch(true);
     handleClose();
   };
