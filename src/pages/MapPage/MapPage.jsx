@@ -265,7 +265,7 @@ const MapPage = () => {
             </div>
           </Stack>
             <Stack>
-            {selectedPlaces.length > 0 && (
+            {selectedPlaces.filter((place) => place.date === selectedDate).length > 0 && (
             <div className="make-trip-area">
               <button className="make-trip-btn" onClick={handleShow}>
                 <span>
