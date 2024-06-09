@@ -5,7 +5,6 @@ import AppLayout from "./layout/AppLayout";
 import HomePage from "./pages/Homepage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import JoinPage from "./pages/JoinPage/JoinPage";
-import PlanPage from "./pages/PlanPage/PlanPage";
 import SelectTripPage from "./pages/SelectTripPage/SelectTripPage";
 import MapPage from "./pages/MapPage/MapPage";
 import TravelDetailPage from "./pages/TravelDetailPage/TravelDetailPage";
@@ -18,17 +17,23 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}>
+        <Route
+          path="/"
+          element={
+            <AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+          }
+        >
           <Route index element={<HomePage />} />
-          <Route path="/login" element={<LoginPage  setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/join" element={<JoinPage />} />
-          <Route path="/plan" element={<PlanPage />} />
           <Route path="/selectTrip" element={<SelectTripPage />} />
-        <Route path="/trip/list" element={<TripListPage />} />
-        <Route path="/detail/:id" element={<TravelDetailPage />} />
+          <Route path="/trip/list" element={<TripListPage />} />
+          <Route path="/detail/:id" element={<TravelDetailPage />} />
         </Route>
         <Route path="/trip" element={<MapPage />} />
-        
       </Routes>
     </div>
   );
