@@ -5,19 +5,10 @@ import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSuitcaseRolling } from '@fortawesome/free-solid-svg-icons';
 
-function TripModal({ show, handleClose }) {
-  const [title, setTitle] = useState('');
-  const [file, setFile] = useState(null);
+function TripModal({ show, handleClose, handleSubmit, title, setTitle, file, setFile }) {
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleFileChange = (e) => setFile(e.target.files[0]);
-
-  const handleSubmit = () => {
-    // 제출 처리 로직
-    console.log('Title:', title);
-    console.log('File:', file);
-    handleClose();
-  };
 
   return (
     <Modal show={show} onHide={handleClose}>

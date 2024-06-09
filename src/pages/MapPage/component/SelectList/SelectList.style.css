@@ -9,6 +9,13 @@
   }
 }
 
+.select-add-button {
+  flex: 1; /* 버튼에 20%의 공간을 할당 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .slide-out-right {
   animation: slideOutRight 0.5s forwards;
 }

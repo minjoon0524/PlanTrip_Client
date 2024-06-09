@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./SelectList.style.css";
+import { COLORS } from "../../../../datas/map-constants";
 
-const SelectList = ({ places, removeFromSelectedList }) => {
+const SelectList = ({ places, removeFromSelectedList, selectedDayIndex }) => {
   const [removing, setRemoving] = useState(null);
 
   // 날짜별로 관광지를 그룹화하는 함수
@@ -24,7 +25,7 @@ const SelectList = ({ places, removeFromSelectedList }) => {
     setTimeout(() => {
       removeFromSelectedList(index);
       setRemoving(null);
-    }, 500); // Match this duration with the animation duration
+    }, 500); // 애니메이션 지속 시간에 맞춰 설정
   };
 
   return (
@@ -41,10 +42,18 @@ const SelectList = ({ places, removeFromSelectedList }) => {
             return (
               <div
                 key={placeIndex}
-                className={`select-items ${
-                  isRemoving ? "slide-out-right" : ""
-                }`}
+                className={`select-items ${isRemoving ? "slide-out-right" : ""}`}
               >
+                {/* 구분선 */}
+                <div className="select-add-button">
+                  {/* 마커 이미지 삽입 */}
+                  <img
+                    src={`/markers/marker9/marker-9-${placeIndex+1}.svg`}
+                    alt="Marker"
+                    style={{ width: '32px', height: '32px' }}
+                  />
+                </div>
+                {/* 구분선 */}
                 <div>
                   <div className="store-name">{place.place_name}</div>
                   <div>
@@ -70,7 +79,7 @@ const SelectList = ({ places, removeFromSelectedList }) => {
                     )}
                   </div>
                 </div>
-                <div className="add-button">
+                <div className="select-add-button">
                   <button
                     className="bin-button"
                     onClick={() => handleRemove(placeIndex, date, place)}
