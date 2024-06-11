@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
-import { Map, MapMarker, Polyline, CustomOverlayMap } from "react-kakao-maps-sdk";
+import {
+  Map,
+  MapMarker,
+  Polyline,
+  CustomOverlayMap,
+} from "react-kakao-maps-sdk";
 import { COLORS } from "./../../datas/map-constants";
 
 const { kakao } = window;
@@ -83,7 +88,7 @@ const KakaoMap = ({
       );
       map.setBounds(newBounds);
     }
-  }, [map, defaultPosition, defaultLevel, selectedPlaces]);
+  }, [defaultLevel, selectedPlaces]);
 
   // 키워드 검색
   useEffect(() => {
@@ -92,7 +97,7 @@ const KakaoMap = ({
     const ps = new kakao.maps.services.Places();
 
     ps.keywordSearch(keyword, (data, status) => {
-      console.log(data)
+      console.log(data);
       if (status === kakao.maps.services.Status.OK) {
         onSearchResults(data);
 
@@ -111,7 +116,7 @@ const KakaoMap = ({
         }
       }
     });
-  }, [map, keyword, onSearchResults]);
+  }, [keyword, onSearchResults]);
 
   // 레벨 계산 함수
   const calculateLevel = (place) => {
@@ -144,11 +149,13 @@ const KakaoMap = ({
                   index === 0
                     ? "/markers/marker.svg" // 현재 위치 마커인 경우 marker.svg 사용
                     : `/markers/marker${
-                        marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
+                        marker.dayNumber &&
+                        marker.dayNumber.includes(selectedDayIndex)
                           ? marker.dayNumber[selectedDayIndex] % COLORS.length
                           : 1
                       }/marker-${
-                        marker.dayNumber && marker.dayNumber.includes(selectedDayIndex)
+                        marker.dayNumber &&
+                        marker.dayNumber.includes(selectedDayIndex)
                           ? marker.dayNumber[selectedDayIndex] % COLORS.length
                           : 1
                       }-${marker.visitNumbers}.svg`, // 선택된 장소의 마커 이미지
@@ -163,7 +170,6 @@ const KakaoMap = ({
                 <div className="wrap">
                   <div className="info">
                     <div className="title">
-                    
                       <div
                         className="close"
                         onClick={() => setIsOpen(false)}

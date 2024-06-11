@@ -66,7 +66,8 @@ const AppLayout = ({ isLoggedIn, setIsLoggedIn }) => {
               {isLoggedIn ? (
                 <>
                   <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                  <Nav.Link><FontAwesomeIcon icon={faCircleUser} />{" "}{userName}</Nav.Link> {/* 사용자 이름 표시 */}
+                  {/* <Nav.Link><FontAwesomeIcon icon={faCircleUser} />{" "}{userName}</Nav.Link> 사용자 이름 표시 */}
+                  <Nav.Link><FontAwesomeIcon icon={faCircleUser} />{" "}MJ</Nav.Link> {/* 사용자 이름 표시 */}
                 </>
               ) : (
                 <>

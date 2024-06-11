@@ -14,12 +14,14 @@ const LoginPage = ({ setIsLoggedIn }) => {
   const [csrfToken, setCsrfToken] = useState("");
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     // 컴포넌트가 마운트될 때 CSRF 토큰을 가져옵니다.
     const fetchCsrfToken = async () => {
       try {
         const response = await axios.get("http://localhost:80/csrf-token");
         setCsrfToken(response.data.token);
+        console.log(response)
       } catch (error) {
         console.error("CSRF 토큰을 가져오는 중 오류 발생:", error);
       }
@@ -50,8 +52,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
-          "X-CSRF-TOKEN": csrfToken // CSRF 토큰 추가
+
         },
         withCredentials: true // 쿠키 포함
       }

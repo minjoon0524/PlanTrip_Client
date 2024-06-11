@@ -36,8 +36,8 @@ function TripModal({ show, handleClose, handleSubmit, title, setTitle, file, set
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>Close</Button>
-        <Button variant="primary" onClick={handleSubmit}>Submit</Button>
+        <Button variant="secondary" onClick={handleClose}>취소</Button>
+        <Button variant="primary" onClick={handleSubmit}>확인</Button>
       </Modal.Footer>
     </Modal>
   );

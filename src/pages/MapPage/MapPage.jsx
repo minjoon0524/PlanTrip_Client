@@ -160,6 +160,13 @@ const MapPage = () => {
     return dayNumbers;
   };
 
+  const btnStyle = {
+    display: selectedDate === "" ? "none" : "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column"
+  };
+
   return (
     <div className="map-area">
       {/* 로고 및 검색 영역 */}
@@ -235,7 +242,7 @@ const MapPage = () => {
         <div className="select-cal-area">
           <button
             className="calendar-btn"
-            style={{ display: selectedDate === "" ? "none" : "block" }}
+            style={ btnStyle }
             onClick={() => adjustDate(-1)}
             disabled={selectedDayIndex === 0}
           >
@@ -244,7 +251,7 @@ const MapPage = () => {
           <span className="cal-item">{selectedDate}</span>
           <button
             className="calendar-btn"
-            style={{ display: selectedDate === "" ? "none" : "block" }}
+            style={ btnStyle }
             onClick={() => adjustDate(1)}
             disabled={selectedDayIndex === travelDays - 1}
           >
@@ -337,6 +344,9 @@ const MapPage = () => {
             show={show}
             handleSubmit={handleSubmit}
             handleClose={handleClose}
+            handleTitleChange={handleTitleChange}
+            setTitle={setTitle}
+            setFile={setFile}
           />
         </Row>
       </div>
