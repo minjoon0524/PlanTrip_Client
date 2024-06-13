@@ -1,5 +1,3 @@
-// KakaoMap.jsx
-
 import React, { useEffect, useState } from "react";
 import "./KakaoMap.style.css";
 import {
@@ -66,24 +64,6 @@ useEffect(() => {
   map.setLevel(defaultLevel);
 }, [map, defaultPosition, defaultLevel]);
 
-useEffect(() => {
-  if (!map) return;
-
-  // 기본 위치에 마커 설정
-  const defaultMarker = {
-    position: defaultPosition,
-    content: "현재위치",
-  };
-
-  const bounds = new kakao.maps.LatLngBounds();
-  bounds.extend(
-    new kakao.maps.LatLng(defaultPosition.lat, defaultPosition.lng)
-  );
-  setMarkers([defaultMarker]);
-  map.setBounds(bounds);
-  map.setLevel(defaultLevel);
-}, [map, defaultPosition, defaultLevel]);
-
 // 검색된 장소 표시
 useEffect(() => {
   if (!map) return;
@@ -130,18 +110,21 @@ useEffect(() => {
     if (status === kakao.maps.services.Status.OK) {
       onSearchResults(data);
 
-      // 검색된 장소의 bounds 설정
-      const bounds = new kakao.maps.LatLngBounds();
-      data.forEach((place) =>
-        bounds.extend(new kakao.maps.LatLng(place.y, place.x))
-      );
-      map.setBounds(bounds);
+      // 검색된 장소를 마커로만 표시하고 범위는 설정하지 않음
+      const searchMarkers = data.map((place) => ({
+        position: {
+          lat: parseFloat(place.y),
+          lng: parseFloat(place.x),
+        },
+        content: place.place_name,
+      }));
+
+      // 기존 마커와 검색 마커를 합쳐서 설정
+      setMarkers((prevMarkers) => [...prevMarkers, ...searchMarkers]);
 
       // 검색된 장소 중 첫 번째 장소의 위치를 기준으로 레벨 설정
       if (data.length > 0) {
-        //console.log("레벨 테스트",data)
         const firstPlace = data[0];
-        console.log("levelTest",firstPlace)
         const level = calculateLevel(firstPlace);
         setDefaultLevel(level);
       }
@@ -153,16 +136,34 @@ useEffect(() => {
 
   // 레벨 계산 함수
   const calculateLevel = (place) => {
-    // 임의의 기준을 설정하여 레벨 계산 (예: 좌표의 소수점 자리수를 이용한 계산)
-    const latLength = place.y.toString().split(".")[1].length;
-    const lngLength = place.x.toString().split(".")[1].length;
-    const level = Math.min(10 - Math.max(latLength, lngLength), 5); // 최대 레벨 5
-    console.log("dddddlevel",level)
+    const zoomLevels = [
+      { distance: 200, level: 4 },
+      { distance: 500, level: 5 },
+      { distance: 1000, level: 6 },
+      { distance: 2000, level: 7 },
+      { distance: 4000, level: 8 },
+      { distance: 10000, level: 9 },
+      { distance: 20000, level: 10 },
+    ];
+  
+    let level = 4; // 기본 줌 레벨
+    const distances = selectedPlaces.map((selectedPlace) => {
+      const latDiff = place.y - parseFloat(selectedPlace.place.y);
+      const lngDiff = place.x - parseFloat(selectedPlace.place.x);
+      return Math.sqrt(latDiff * latDiff + lngDiff * lngDiff);
+    });
+  
+    const maxDistance = Math.max(...distances);
+  
+    for (const zoomLevel of zoomLevels) {
+      if (maxDistance < zoomLevel.distance) {
+        level = zoomLevel.level;
+        break;
+      }
+    }
+  
     return level;
   };
-  if (selectedPlaces.length > 0 && selectedPlaces[0].dayNumber) {
-    console.log(selectedPlaces[0].dayNumber);
-  }
   return (
     <div className="map-area">
       <Map
